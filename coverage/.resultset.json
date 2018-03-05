@@ -1,0 +1,116 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/y/Documents/GitHub/twgo-exp/app/mailers/application_mailer.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/admin/dashboard.rb": [
+        0,
+        null,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/admin/users.rb": [
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/models/application_record.rb": [
+        0,
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/models/user.rb": [
+        0,
+        null,
+        null,
+        0,
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/jobs/application_job.rb": [
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/controllers/application_controller.rb": [
+        0,
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/helpers/application_helper.rb": [
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/channels/application_cable/connection.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/y/Documents/GitHub/twgo-exp/app/channels/application_cable/channel.rb": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1520239209
+  }
+}
