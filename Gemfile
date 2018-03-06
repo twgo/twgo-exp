@@ -10,6 +10,7 @@ ruby '~> 2.4.2'
 gem 'devise'
 gem 'activeadmin'
 gem 'coveralls', require: false
+gem 'gentelella-rails'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
