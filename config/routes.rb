@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  root to: "admin/dashboard#index"
+  # root to: "admin/dashboard#index"
 
-  get "/index.html" => "static#indexkp"
+  root to: "rounds#index"
 
   resources :static do
     collection do
