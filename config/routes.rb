@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   root to: "rounds#index"
 
-  resources :static do
+  resources :rounds do
     collection do
-      get 'download'
+      get 'refresh'
     end
   end
 end
