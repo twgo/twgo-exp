@@ -3,7 +3,7 @@ require 'open-uri'
 
 class RoundsController < ApplicationController
   def index
-    @rounds = Round.order(id: :desc)
+    @rounds = Round.where.not(rate: 0).order(id: :desc)
   end
 
   def update
