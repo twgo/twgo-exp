@@ -2,6 +2,9 @@ require 'json'
 require 'open-uri'
 
 class RoundsController < ApplicationController
+  EXPERIMENTS = ['siann1-hak8_boo5-hing5', 'gi2-gian5_boo5-hing5']
+  HOST_URL = 'http://10.32.0.120/job'
+
   def index
     @rounds = Round.where.not(rate: 0).order(id: :desc)
   end
@@ -13,7 +16,7 @@ class RoundsController < ApplicationController
   end
 
   def refresh
-    ['siann1-hak8_boo5-hing5', 'gi2-gian5_boo5-hing5'].each do |exp_name|
+    EXPERIMENTS.each do |exp_name|
       if Round.count != build_counts(exp_name)
         result = ci_success_exp_git(exp_name)
         new_round = []
@@ -25,7 +28,7 @@ class RoundsController < ApplicationController
   end
 
   def build_counts(exp_name)
-    JSON.parse(open("http://10.32.0.120/job/#{exp_name}/api/json",
+    JSON.parse(open("#{HOST_URL}/#{exp_name}/api/json",
       http_basic_authentication: ['ci','ci' ]) {|f| f.read })['builds'].first['number']
   end
 
@@ -33,7 +36,7 @@ class RoundsController < ApplicationController
     all_build_counts = build_counts(exp_name)
 
     all_exp_detail=[]
-    (1..all_build_counts).each{|x| all_exp_detail  << open("http://10.32.0.120/job/#{exp_name}/#{x}/api/json", http_basic_authentication: ['ci','ci' ]) {|f| f.read } }
+    (1..all_build_counts).each{|x| all_exp_detail  << open("#{HOST_URL}/#{exp_name}/#{x}/api/json", http_basic_authentication: ['ci','ci' ]) {|f| f.read } }
 
     success_exp_detail = []
     (1..all_build_counts).each do |x|
@@ -63,7 +66,7 @@ class RoundsController < ApplicationController
   private
 
   def docker_id(exp_name, id)
-    a = open("http://10.32.0.120/job/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci','ci' ]) {|f| f.read } .split
+    a = open("#{HOST_URL}/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci','ci' ]) {|f| f.read } .split
 
     a[(a.index('Id:</b>')+1)]
   end
@@ -74,7 +77,7 @@ class RoundsController < ApplicationController
   end
 
   def exp_rate(exp_name, id)
-    result = open("http://10.32.0.120/job/#{exp_name}/#{id}/console", http_basic_authentication: ['ci','ci' ]) {|f| f.read }
+    result = open("#{HOST_URL}/#{exp_name}/#{id}/console", http_basic_authentication: ['ci','ci' ]) {|f| f.read }
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}.min || 0
   end
 
