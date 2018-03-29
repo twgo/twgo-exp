@@ -77,7 +77,7 @@ class RoundsController < ApplicationController
   end
 
   def exp_rate(exp_name, id)
-    result = open("#{HOST_URL}/#{exp_name}/#{id}/console", http_basic_authentication: ['ci','ci' ]) {|f| f.read }
+    result = open("#{HOST_URL}/#{exp_name}/#{id}/consoleText", http_basic_authentication: ['ci','ci' ]) {|f| f.read }
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}.min || 0
   end
 

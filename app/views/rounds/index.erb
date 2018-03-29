@@ -56,7 +56,7 @@
                         <th>實驗</th>
                         <th>程式</th>
                         <th>說明</th>
-                        <th>註記</th>
+                        <th>註記 (shift + enter)</th>
                         <th>檔</th>
                         <th>錯誤率</th>
                       </tr>
@@ -69,8 +69,7 @@
                         <td><%= r.info %></td>
                         <td>
                           <%= form_for r, method: "patch" do |f| %>
-                            <%= f.text_field :label  %>
-                            <% f.submit 'update' %>
+                            <%= f.text_area :label, size: '100%', class: 'label_area'%>
                           <% end %>
                         </td>
                         <td><%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker" %></td>
@@ -129,6 +128,12 @@
 <% end %>
 
   <script>
+  $('.label_area').keypress(function(e){
+    if(e.which == 13 && e.shiftKey){
+         $(this).closest('form').submit();
+     }
+  });
+
   			if ($('#lineChart').length ){
   			  var ctx = document.getElementById("lineChart");
   			  var lineChart = new Chart(ctx, {
