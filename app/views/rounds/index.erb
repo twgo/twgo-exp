@@ -16,7 +16,7 @@
           <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section">
               <ul class="nav side-menu">
-                <li><a><i class="fa fa-home"></i> 聲學實驗 <span class="fa fa-chevron-down"></span></a>
+                <li><a><i class="fa fa-home"></i> 實驗 <span class="fa fa-chevron-down"></span></a>
                 </li>
                 <li><a><i class="fa fa-edit"></i> 設定 <span class="fa fa-chevron-down"></span></a>
                 </li>
@@ -31,7 +31,7 @@
         <div class="">
           <div class="page-title">
             <div class="title_left">
-              <h3>聲學實驗</h3>
+              <h3>實驗</h3>
             </div>
           </div>
 
@@ -41,7 +41,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>實驗集</h2>
+                  <h2>實驗集<%= link_to ' 🔁', refresh_rounds_path, title: 'REFRESH' %></h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -49,58 +49,29 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <%= link_to 'Refresh', refresh_rounds_path %>
-                  <table id="datatable-buttons" class="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>實驗</th>
-                        <th>程式</th>
-                        <th>說明</th>
-                        <th>註記 (shift + enter)</th>
-                        <th>檔</th>
-                        <th>錯誤率</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <% @rounds.each do |r| %>
-                      <tr>
-                        <td><%= link_to "#{r.jid}", "http://10.32.0.120/job/#{r.jid}" %></td>
-                        <td><%= link_to "#{r.cid.split('"')[-2]}", "https://github.com/twgo/#{r.jid.split('/')[0]}/commit/#{r.cid.split('"')[3]}" %></td>
-                        <td><%= r.info %></td>
-                        <td>
-                          <%= form_for r, method: "patch" do |f| %>
-                            <%= f.text_area :label, size: '100%', class: 'label_area'%>
-                          <% end %>
-                        </td>
-                        <td><%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker" %></td>
-                        <td><%= "#{r.rate}%" %></td>
-                      </tr>
-                    <% end %>
-                    </tbody>
-                  </table>
+                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="ci1-tab" role="tab" data-toggle="tab" aria-expanded="true">聲學實驗</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="ci2-tab" data-toggle="tab" aria-expanded="false">OUTSIDE TEST</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="ci1-tab">
+                        <%= render 'layouts/ci_table', locals: {ci_data: @ci_data_siann} %>
+                        <canvas id="lineChart"></canvas>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="ci2-tab">
+                        <%= render 'layouts/ci_table', locals: {ci_data: @ci_data_gi}  %>
+                        <canvas id="lineChart_g"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>實驗趨勢圖</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <canvas id="lineChart"></canvas>
-                  <canvas id="lineChart_g"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
         <div class="clearfix"></div>
       </div>
@@ -161,7 +132,7 @@
   				data: {
   				  labels: $('#ci_key_g').data('temp').reverse(),
   				  datasets: [{
-  					label: "語言實驗",
+  					label: "OUTSIDE TEST",
   					backgroundColor: "rgba(38, 185, 154, 0.31)",
   					borderColor: "rgba(38, 185, 154, 0.7)",
   					pointBorderColor: "rgba(38, 185, 154, 0.7)",

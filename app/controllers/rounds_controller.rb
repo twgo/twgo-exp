@@ -7,6 +7,8 @@ class RoundsController < ApplicationController
 
   def index
     @rounds = Round.where.not(rate: 0).order(id: :desc)
+    @ci_data_siann = Round.where("jid like ?", "siann1-hak8_boo5-hing5%").where.not(rate: 0).order(id: :desc)
+    @ci_data_gi = Round.where("jid like ?", "gi2-gian5_boo5-hing5%").where.not(rate: 0).order(id: :desc)
   end
 
   def update
