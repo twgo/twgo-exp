@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <% locals[:ci_data].each do |r| %>
+    <% params[:ci_data].each do |r| %>
       <tr>
         <td><%= link_to "#{r.jid}", "http://10.32.0.120/job/#{r.jid}" %></td>
         <td><%= link_to "#{r.cid.split('"')[-2]}", "https://github.com/twgo/#{r.jid.split('/')[0]}/commit/#{r.cid.split('"')[3]}" %></td>

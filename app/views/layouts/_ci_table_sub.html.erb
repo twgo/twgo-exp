@@ -1,0 +1,15 @@
+<div class="" role="tabpanel" data-example-id="togglable-tabs">
+  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+    <% params[:ci_group].each_with_index do |r,i| %>
+      <li role="presentation"><a href="#<%= params[:ci_name]+i.to_s %>" role="tab" data-toggle="tab" aria-expanded="<%= i==0 ? 'true' : 'false' %>"><%= r%></a>
+      </li>
+    <% end %>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+    <% params[:ci_group].each_with_index do |r,i| %>
+      <div role="tabpanel" class="<%= i==0 ? 'tab-pane fade active in' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
+        <%= render 'layouts/ci_table', params: {ci_data: params[:ci_data].where("cid like ?", "%#{r}%")} %>
+      </div>
+    <% end %>
+  </div>
+</div>
