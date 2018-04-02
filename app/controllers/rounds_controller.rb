@@ -29,6 +29,8 @@ class RoundsController < ApplicationController
     redirect_to rounds_path
   end
 
+  private
+
   def build_counts(exp_name)
     JSON.parse(open("#{HOST_URL}/#{exp_name}/api/json",
       http_basic_authentication: ['ci','ci' ]) {|f| f.read })['builds'].first['number']
@@ -64,8 +66,6 @@ class RoundsController < ApplicationController
 
     success_exp
   end
-
-  private
 
   def docker_id(exp_name, id)
     a = open("#{HOST_URL}/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci','ci' ]) {|f| f.read } .split
