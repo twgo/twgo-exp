@@ -1,0 +1,121 @@
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+            <div class="title_left">
+              <h3>實驗</h3>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>實驗集<%= link_to ' 🔁', refresh_rounds_path, title: 'REFRESH' %></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="ci1-tab" role="tab" data-toggle="tab" aria-expanded="true">聲學實驗</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="ci2-tab" data-toggle="tab" aria-expanded="false">OUTSIDE TEST</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="ci1-tab">
+                        <%= render 'layouts/ci_table_sub', params: {ci_data: @ci_data_siann, ci_name: 'siann', ci_group: @ci_data_siann.pluck(:cid).map{|x| x.split('"')[-2].split('/')[-1]}} %>
+                        <canvas id="lineChart"></canvas>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="ci2-tab">
+                        <%= render 'layouts/ci_table_sub', params: {ci_data: @ci_data_gi, ci_name: 'gi', ci_group: @ci_data_gi.pluck(:cid).map{|x| x.split('"')[-2].split('/')[-1]}}  %>
+                        <canvas id="lineChart_g"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!-- /page content -->
+
+      <!-- /page content -->
+
+      <!-- footer content -->
+      <footer>
+        <div class="pull-right">
+          IIS leo424y
+        </div>
+        <div class="clearfix"></div>
+      </footer>
+      <!-- /footer content -->
+    </div>
+  </div>
+<%= content_tag :div, id: "ci_key", data: {temp: @rounds.select{ |m| m.jid.start_with? 'siann1-hak8_boo5-hing5' }.pluck(:jid).map{|a|a.split('/')[-1]}} do %>
+<% end %>
+<%= content_tag :div, id: "ci_value", data: {temp: @rounds.select{ |m| m.jid.start_with? 'siann1-hak8_boo5-hing5' }.pluck(:rate).map(&:to_i)} do %>
+<% end %>
+<%= content_tag :div, id: "ci_key_g", data: {temp: @rounds.select{ |m| m.jid.start_with? 'gi2-gian5_boo5-hing5' }.pluck(:jid).map{|a|a.split('/')[-1]}} do %>
+<% end %>
+<%= content_tag :div, id: "ci_value_g", data: {temp: @rounds.select{ |m| m.jid.start_with? 'gi2-gian5_boo5-hing5' }.pluck(:rate).map(&:to_i)} do %>
+<% end %>
+
+  <script>
+  $('.label_area').keypress(function(e){
+    if(e.which == 13 && e.shiftKey){
+         $(this).closest('form').submit();
+     }
+  });
+
+  			if ($('#lineChart').length ){
+  			  var ctx = document.getElementById("lineChart");
+  			  var lineChart = new Chart(ctx, {
+  				type: 'line',
+  				data: {
+  				  labels: $('#ci_key').data('temp').reverse(),
+  				  datasets: [{
+  					label: "聲學實驗",
+  					backgroundColor: "rgba(38, 185, 154, 0.31)",
+  					borderColor: "rgba(38, 185, 154, 0.7)",
+  					pointBorderColor: "rgba(38, 185, 154, 0.7)",
+  					pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+  					pointHoverBackgroundColor: "#fff",
+  					pointHoverBorderColor: "rgba(220,220,220,1)",
+  					pointBorderWidth: 1,
+  					data: $('#ci_value').data('temp').reverse()
+  				  }]
+  				},
+  			  });
+        }
+  			if ($('#lineChart_g').length ){
+          var ctx = document.getElementById("lineChart_g");
+  			  var lineChart_g = new Chart(ctx, {
+  				type: 'line',
+  				data: {
+  				  labels: $('#ci_key_g').data('temp').reverse(),
+  				  datasets: [{
+  					label: "OUTSIDE TEST",
+  					backgroundColor: "rgba(38, 185, 154, 0.31)",
+  					borderColor: "rgba(38, 185, 154, 0.7)",
+  					pointBorderColor: "rgba(38, 185, 154, 0.7)",
+  					pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+  					pointHoverBackgroundColor: "#fff",
+  					pointHoverBorderColor: "rgba(220,220,220,1)",
+  					pointBorderWidth: 1,
+  					data: $('#ci_value_g').data('temp').reverse()
+  				  }]
+  				},
+  			  });
+  			}
+  </script>
