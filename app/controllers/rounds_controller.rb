@@ -3,12 +3,17 @@ require 'open-uri'
 
 class RoundsController < ApplicationController
   EXPERIMENTS = ['siann1-hak8_boo5-hing5', 'gi2-gian5_boo5-hing5']
+
   HOST_URL = 'http://10.32.0.120/job'
 
   def index
+    @experiments = EXPERIMENTS
     @rounds = Round.where.not(rate: 0).order(id: :desc)
-    @ci_data_siann = Round.where("jid like ?", "siann1-hak8_boo5-hing5%").where.not(rate: 0).order(id: :desc)
-    @ci_data_gi = Round.where("jid like ?", "gi2-gian5_boo5-hing5%").where.not(rate: 0).order(id: :desc)
+
+    @experiments.each do |e|
+      e = e.gsub('-', '_')
+      instance_variable_set("@ci_data_#{e}", Round.where("jid like ?", "#{e}%").where.not(rate: 0).order(id: :desc) )
+    end
   end
 
   def update
