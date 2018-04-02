@@ -1,12 +1,13 @@
 <body class="nav-md">
   <div class="container body">
     <div class="main_container">
+      <%= render 'layouts/nav' %>
       <!-- page content -->
       <div class="right_col" role="main">
         <div class="">
           <div class="page-title">
             <div class="title_left">
-              <h3>實驗</h3>
+              <h3>實驗集</h3>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -14,7 +15,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>實驗集<%= link_to ' 🔁', refresh_rounds_path, title: 'REFRESH' %></h2>
+                  <h2>刷新<%= link_to ' 🔁', refresh_rounds_path, title: 'REFRESH' %></h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
