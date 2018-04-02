@@ -9,10 +9,8 @@ class RoundsController < ApplicationController
   def index
     @experiments = EXPERIMENTS
     @rounds = Round.where.not(rate: 0).order(id: :desc)
-
     @experiments.each do |e|
-      e = e.gsub('-', '_')
-      instance_variable_set("@ci_data_#{e}", Round.where("jid like ?", "#{e}%").where.not(rate: 0).order(id: :desc) )
+      instance_variable_set("@ci_data_#{e.gsub('-', '_')}", Round.where("jid like ?", "#{e}%").where.not(rate: 0).order(id: :desc) )
     end
   end
 

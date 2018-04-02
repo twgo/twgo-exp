@@ -25,7 +25,7 @@
                 <div class="x_content">
                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                      <% @experiments.each do |e| %>
+                      <% @experiments.each_with_index do |e,i| %>
                       <li role="presentation" class=""><a href='#tab_content_<%= e %>' id='ci_tab_<%= e %>' role="tab" data-toggle="tab"><%= e %></a>
                       </li>
                       <% end %>
@@ -33,8 +33,11 @@
                     <div id="myTabContent" class="tab-content">
                       <% @experiments.each do |e| %>
                         <div role="tabpanel" class="tab-pane fade" id='tab_content_<%= e %>' aria-labelledby='ci_tab_<%= e %>'>
-                          <%= render 'layouts/ci_table_sub', params: {ci_data: instance_variable_get("@ci_data_#{e.gsub('-', '_')}"), ci_name: e, ci_group: instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:cid).map{|x| x.split('"')[-2].split('/')[-1]}} %>
-                          <canvas id='<%= e %>_lineChart'></canvas>
+                          <%= render 'layouts/ci_table_sub', params: {
+                            ci_data: instance_variable_get("@ci_data_#{e.gsub('-', '_')}"),
+                            ci_name: e,
+                            ci_group: instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:cid).map{|x| x.split('"')[-2].split('/')[-1]},
+                          } %>
                         </div>
                       <% end %>
                     </div>
@@ -61,20 +64,29 @@
       <!-- /footer content -->
     </div>
   </div>
+<script>
+$('.label_area').keypress(function(ev){
+  if(ev.which == 13 && ev.shiftKey){
+       $(this).closest('form').submit();
+   }
+});
+</script>
+
 <% @experiments.each do |e| %>
-  <%= content_tag :div, id: "#{e}_ci_key", data: {temp: @rounds.select{ |m| m.jid.start_with? e }.pluck(:jid).map{|a|a.split('/')[-1]}} do %>
+<% instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:cid).map{|x| x.split('"')[-2].split('/')[-1]}.uniq.each_with_index do |r, i| %>
+  <%= content_tag :div, id: "#{e}_#{i}_ci_key", data: {temp: @rounds.where("cid like ?", "%#{r}%").select{ |m| m.jid.start_with? e }.pluck(:jid).map{|a|a.split('/')[-1]}} do %>
   <% end %>
-  <%= content_tag :div, id: "#{e}_ci_value", data: {temp: @rounds.select{ |m| m.jid.start_with? e }.pluck(:rate).map(&:to_i)} do %>
+  <%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where("cid like ?", "%#{r}%").select{ |m| m.jid.start_with? e }.pluck(:rate).map(&:to_i)} do %>
   <% end %>
   <script>
-  if ($('#<%= e %>_lineChart').length ){
-        var ctx = document.getElementById('<%= e %>_lineChart');
+  if ($('#<%= "#{e}#{i}" %>_lineChart').length ){
+        var ctx = document.getElementById('<%= "#{e}_#{i}" %>_lineChart');
         var lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: $('#<%= e %>_ci_key').data('temp').reverse(),
+          labels: $('#<%= "#{e}_#{i}" %>_ci_key').data('temp').reverse(),
           datasets: [{
-          label: '<%= e %>',
+          label: '<%= "#{e}_#{i}" %>',
           backgroundColor: "rgba(38, 185, 154, 0.31)",
           borderColor: "rgba(38, 185, 154, 0.7)",
           pointBorderColor: "rgba(38, 185, 154, 0.7)",
@@ -82,17 +94,11 @@
           pointHoverBackgroundColor: "#fff",
           pointHoverBorderColor: "rgba(220,220,220,1)",
           pointBorderWidth: 1,
-          data: $('#<%= e %>_ci_value').data('temp').reverse()
+          data: $('#<%= "#{e}_#{i}" %>_ci_value').data('temp').reverse()
           }]
         },
         });
       }
   </script>
+  <% end %>
 <% end %>
-<script>
-$('.label_area').keypress(function(e){
-  if(e.which == 13 && e.shiftKey){
-       $(this).closest('form').submit();
-   }
-});
-</script>
