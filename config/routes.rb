@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   root to: "rounds#index"
 
+  get '/editor', to: 'static#editor'
+
   resources :rounds do
     collection do
       get 'refresh'
