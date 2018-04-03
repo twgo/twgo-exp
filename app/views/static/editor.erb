@@ -22,8 +22,8 @@
                 <div class="x_content">
 <!-- 來源選擇 -->
 <!-- 顯示程式 -->
-<%= form_for 'hi', method: "patch" do |f| %>
-  <%= f.text_area :label, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
+<%= form_for 'github_code', method: "patch" do |f| %>
+  <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
   <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
 <% end %>
 <!-- 修改程式 -->
