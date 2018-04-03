@@ -23,6 +23,8 @@
 <!-- 來源選擇 -->
 <!-- 顯示程式 -->
 <%= form_for 'github_code', method: "patch" do |f| %>
+  <%= f.text_field :repo, value: params[:repo] %>
+  <%= f.text_field :branch, value: params[:branch] %>
   <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
   <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
 <% end %>
