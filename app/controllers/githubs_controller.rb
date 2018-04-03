@@ -3,6 +3,7 @@ require 'net/http'
 
 class GithubsController < ApplicationController
   def index
+    @round = Round.where(id: params[:rid]) || Round.none
     # link github
     params[:branch] = 'siann0102'
     @github_code = params[:branch] ? (get_dockerfile 'gi2-gian5_boo5-hing5', params[:branch]) : ''
