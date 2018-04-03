@@ -20,12 +20,17 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <%= form_tag(githubs_path, method: :get) do -%>
-                    <%= hidden_field_tag :branch, params[:branch] %>
-                    <%= hidden_field_tag :repo, params[:repo] %>
-                    <%= hidden_field_tag :rid, params[:rid] %>
-                    <%= (select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid), {onchange: 'this.form.submit()'} ) if (params[:repo] == 'gi2-gian5_boo5-hing5') %>
-                  <% end -%>
+                  <% if (params[:repo] == 'gi2-gian5_boo5-hing5') %>
+                  <h3>選擇接續實驗</h3>
+                    <%= form_tag(githubs_path, method: :get) do -%>
+                      <%= hidden_field_tag :branch, params[:branch] %>
+                      <%= hidden_field_tag :repo, params[:repo] %>
+
+                      <%= hidden_field_tag :rid, params[:rid] %>
+                      <%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid), {onchange: 'this.form.submit()'} %>
+                      <%= render 'rounds/ci_table', params: {ci_data: @upstream.where(jid: params[:upstream])} %>
+                    <% end -%>
+                  <% end %>
 
                   <%= form_for 'github_code', method: "patch" do |f| %>
                     <%= f.text_field :repo, value: params[:repo], disabled: true %>
