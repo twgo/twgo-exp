@@ -12,12 +12,14 @@ class GithubsController < ApplicationController
   end
 
   def update
-    params[:branch] = 'siann0102'
-    params[:repo] = 'gi2-gian5_boo5-hing5'
-
     contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
-    file = contents.get 'twgo', params[:repo], 'Dockerfile', ref: params[:branch]
-    contents.update('twgo', params[:repo], 'Dockerfile', path: 'Dockerfile', branch: params[:branch], message: 'EXP commit', content: params[:github_code][:content], sha: file.sha)
+    file = contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
+    contents.update('twgo', params[:github_code][:repo], 'Dockerfile',
+      path: 'Dockerfile',
+      branch: params[:github_code][:branch],
+      message: 'EXP commit',
+      content: params[:github_code][:content],
+      sha: file.sha)
     redirect_to rounds_path
   end
 
