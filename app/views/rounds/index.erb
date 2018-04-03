@@ -79,7 +79,7 @@ $('.label_area').keypress(function(ev){
   <%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where("cid like ?", "%#{r}%").select{ |m| m.jid.start_with? e }.pluck(:rate).map(&:to_i)} do %>
   <% end %>
   <script>
-  if ($('#<%= "#{e}#{i}" %>_lineChart').length ){
+  if ($('#<%= "#{e}_#{i}" %>_lineChart').length ){
         var ctx = document.getElementById('<%= "#{e}_#{i}" %>_lineChart');
         var lineChart = new Chart(ctx, {
         type: 'line',
