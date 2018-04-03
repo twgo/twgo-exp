@@ -8,7 +8,7 @@
   <div id="myTabContent" class="tab-content">
     <% params[:ci_group].uniq.each_with_index do |r,i| %>
       <div role="tabpanel" class="<%= i==0 ? 'tab-pane fade active in' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
-        <%= render 'layouts/ci_table', params: {ci_data: params[:ci_data].where("cid like ?", "%#{r}%")} %>
+        <%= render 'ci_table', params: {ci_data: params[:ci_data].where("cid like ?", "%#{r}%")} %>
         <canvas id='<%= "#{params[:ci_name]}_#{i}" %>_lineChart'></canvas>
       </div>
     <% end %>
