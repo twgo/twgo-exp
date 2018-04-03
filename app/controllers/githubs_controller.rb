@@ -1,8 +1,8 @@
 require 'github_api'
 require 'net/http'
 
-class StaticController < ApplicationController
-  def editor
+class GithubsController < ApplicationController
+  def index
     # link github
     params[:branch] = 'siann0102'
     @github_code = params[:branch] ? (get_dockerfile 'gi2-gian5_boo5-hing5', params[:branch]) : ''

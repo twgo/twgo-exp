@@ -5,8 +5,9 @@ Rails.application.routes.draw do
 
   root to: "rounds#index"
 
-  get '/editor', to: 'static#editor'
-  patch '/editor', to: 'static#update'
+  resources :githubs
+
+  patch 'githubs', to: 'githubs#update'
 
   resources :rounds do
     collection do
