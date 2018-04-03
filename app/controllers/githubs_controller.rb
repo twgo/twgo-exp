@@ -3,12 +3,11 @@ require 'net/http'
 
 class GithubsController < ApplicationController
   def index
+    origin_code = get_dockerfile(params[:repo], params[:branch])
+    @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join
+
     @round = Round.where(id: params[:rid]) || Round.none
-    @github_code = params[:branch] ? (get_dockerfile params[:repo], params[:branch]) : ''
-  end
-
-  def change_upstream
-
+    @upstream = Round.where("jid like ?", "siann1-hak8_boo5-hing5%") || Round.none
   end
 
   def update

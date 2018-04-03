@@ -20,14 +20,19 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-<!-- 來源選擇 -->
-<!-- 顯示程式 -->
-<%= form_for 'github_code', method: "patch" do |f| %>
-  <%= f.text_field :repo, value: params[:repo] %>
-  <%= f.text_field :branch, value: params[:branch] %>
-  <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
-  <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
-<% end %>
+                  <%= form_tag(githubs_path, method: :get) do -%>
+                    <%= hidden_field_tag :branch, params[:branch] %>
+                    <%= hidden_field_tag :repo, params[:repo] %>
+                    <%= hidden_field_tag :rid, params[:rid] %>
+                    <%= (select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid), {onchange: 'this.form.submit()'} ) if (params[:repo] == 'gi2-gian5_boo5-hing5') %>
+                  <% end -%>
+
+                  <%= form_for 'github_code', method: "patch" do |f| %>
+                    <%= f.text_field :repo, value: params[:repo], disabled: true %>
+                    <%= f.text_field :branch, value: params[:branch], disabled: true %>
+                    <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
+                    <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
+                  <% end %>
 <!-- 修改程式 -->
                 </div>
               </div>
