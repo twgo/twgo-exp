@@ -2,7 +2,6 @@
   <thead>
     <tr>
       <th>實驗</th>
-      <th>程式</th>
       <th>說明</th>
       <th>註記 (shift + enter)</th>
       <th>檔</th>
@@ -13,14 +12,16 @@
     <% params[:ci_data].each do |r| %>
       <tr>
         <td><%= link_to "#{r.jid}", "http://10.32.0.120/job/#{r.jid}" %></td>
-        <td><%= link_to "#{r.cid.split('"')[-2]}", "https://github.com/twgo/#{r.jid.split('/')[0]}/commit/#{r.cid.split('"')[3]}" %></td>
         <td><%= r.info %></td>
         <td>
           <%= form_for r, method: "patch" do |f| %>
             <%= f.text_area :label, size: '100%', class: 'label_area'%>
           <% end %>
         </td>
-        <td><%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker" %></td>
+        <td>
+          <%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker", title: 'docker' %>
+          <%= link_to "🎁", "https://github.com/twgo/#{r.jid.split('/')[0]}/commit/#{r.cid.split('"')[3]}", title: 'code' %>
+        </td>
         <td><%= "#{r.rate}%" %></td>
       </tr>
     <% end %>
