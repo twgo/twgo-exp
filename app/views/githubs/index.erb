@@ -7,47 +7,29 @@
         <div class="">
           <div class="page-title">
             <div class="title_left">
-              <h3>實驗控制</h3>
+              <h3>實驗控制 <%= "#{params[:repo]} #{params[:branch]}"%></h3>
             </div>
           </div>
           <div class="clearfix"></div>
           <div class="">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
-                <div class="x_title">
-                  <h2>編輯實驗</h2>
-                  <%= render 'rounds/ci_table', params: {ci_data: @round} %>
-                  <div class="clearfix"></div>
-                </div>
                 <div class="x_content">
                   <% if (params[:repo] == 'gi2-gian5_boo5-hing5') %>
-                  <h3>選擇接續實驗</h3>
                     <%= form_tag(githubs_path, method: :get) do -%>
                       <%= hidden_field_tag :branch, params[:branch] %>
                       <%= hidden_field_tag :repo, params[:repo] %>
-
                       <%= hidden_field_tag :rid, params[:rid] %>
-                      <%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid), {onchange: 'this.form.submit()'} %>
-                      <%= render 'rounds/ci_table', params: {ci_data: @upstream.where(jid: params[:upstream])} %>
+                      <%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid_info), {onchange: 'this.form.submit()', prompt: 'choose upstream...'} %>
+                      <p>接續實驗 <%= "#{params[:upstream]} #{Round.find_by(jid: params[:upstream]).info}" if params[:upstream].present? %></p>
                     <% end -%>
                   <% end %>
-
                   <%= form_for 'github_code', method: "patch" do |f| %>
-                    <%= f.text_field :repo, value: params[:repo], disabled: true %>
-                    <%= f.text_field :branch, value: params[:branch], disabled: true %>
+                    <%= f.hidden_field :repo, value: params[:repo], disabled: true %>
+                    <%= f.hidden_field :branch, value: params[:branch], disabled: true %>
                     <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
                     <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
                   <% end %>
-<!-- 修改程式 -->
-                </div>
-              </div>
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>設定執行實驗</h2>
-
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
                 </div>
               </div>
             </div>
