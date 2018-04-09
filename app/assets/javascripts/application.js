@@ -14,4 +14,6 @@
 //= require turbolinks
 //= require gentelella
 //= require gentelella-custom
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .

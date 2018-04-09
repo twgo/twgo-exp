@@ -75,6 +75,7 @@ GEM
       xpath (>= 2.0, < 4.0)
     chart-js-rails (0.1.4)
       railties (> 3.1)
+    chartkick (2.3.3)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
@@ -371,6 +372,7 @@ DEPENDENCIES
   activeadmin
   byebug
   capybara (~> 2.13)
+  chartkick
   coffee-rails (~> 4.2)
   coveralls
   devise

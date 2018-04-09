@@ -13,6 +13,8 @@ gem 'coveralls', require: false
 gem 'gentelella-rails'
 gem 'github_api'
 gem 'dotenv-rails', groups: [:development, :test]
+gem "chartkick"
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.5'
 # Use sqlite3 as the database for Active Record
