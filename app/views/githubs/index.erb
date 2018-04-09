@@ -25,8 +25,9 @@
                     <% end -%>
                   <% end %>
                   <%= form_for 'github_code', method: "patch" do |f| %>
-                    <%= f.hidden_field :repo, value: params[:repo], disabled: true %>
-                    <%= f.hidden_field :branch, value: params[:branch], disabled: true %>
+                    <%= f.hidden_field :repo, value: params[:repo] %>
+                    <%= f.hidden_field :branch, value: params[:branch] %>
+                    <%= f.hidden_field :upstream, value: params[:upstream] %>
                     <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
                     <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
                   <% end %>

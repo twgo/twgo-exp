@@ -11,12 +11,13 @@ class GithubsController < ApplicationController
   end
 
   def update
+    message = params[:github_code][:upstream].present? ?  "RUN after #{params[:github_code][:upstream]} by EXP" : 'Edit by EXP'
     contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
     file = contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
     contents.update('twgo', params[:github_code][:repo], 'Dockerfile',
       path: 'Dockerfile',
       branch: params[:github_code][:branch],
-      message: 'EXP commit',
+      message: message,
       content: params[:github_code][:content],
       sha: file.sha)
     redirect_to rounds_path
