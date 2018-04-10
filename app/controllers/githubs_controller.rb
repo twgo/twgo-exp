@@ -12,22 +12,26 @@ class GithubsController < ApplicationController
 
   def update
     message = params[:github_code][:upstream].present? ?  "RUN after #{params[:github_code][:upstream]} by EXP" : 'Edit by EXP'
-    contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
-    file = contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
-    contents.update('twgo', params[:github_code][:repo], 'Dockerfile',
+    github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
+    file = github_contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
+
+    github_contents.update('twgo', params[:github_code][:repo], 'Dockerfile',
       path: 'Dockerfile',
       branch: params[:github_code][:branch],
       message: message,
       content: params[:github_code][:content],
-      sha: file.sha)
+      sha: file.sha,
+    )
+
     redirect_to rounds_path
   end
 
   private
 
   def get_dockerfile project, branch
-    contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
-    url = contents.get(user: 'twgo', repo: project, path: 'Dockerfile', ref: branch).download_url
+    github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
+    url = github_contents.get(user: 'twgo', repo: project, path: 'Dockerfile', ref: branch).download_url
+
     Net::HTTP.get(URI.parse(URI.unescape(URI.encode(url)))).force_encoding("UTF-8")
   end
 end
