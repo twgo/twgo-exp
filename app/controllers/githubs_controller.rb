@@ -7,7 +7,7 @@ class GithubsController < ApplicationController
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
 
     @round = Round.where(id: params[:rid]) || Round.none
-    @upstream = Round.where("jid like ?", "siann1-hak8_boo5-hing5%") || Round.none
+    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5') || Round.none
   end
 
   def update

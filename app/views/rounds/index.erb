@@ -74,9 +74,9 @@ $('.label_area').keypress(function(ev){
 
 <% @experiments.each do |e| %>
 <% instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:branch).uniq.each_with_index do |r, i| %>
-  <%= content_tag :div, id: "#{e}_#{i}_ci_key", data: {temp: @rounds.where("cid like ?", "%#{r}%").select{ |m| m.jid.start_with? e }.pluck(:expid)} do %>
+  <%= content_tag :div, id: "#{e}_#{i}_ci_key", data: {temp: @rounds.where(repo: e, branch: r).pluck(:expid)} do %>
   <% end %>
-  <%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where("cid like ?", "%#{r}%").select{ |m| m.jid.start_with? e }.pluck(:rate).map(&:to_i)} do %>
+  <%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where(repo: e, branch: r).pluck(:rate).map(&:to_i)} do %>
   <% end %>
   <script>
   if ($('#<%= "#{e}_#{i}" %>_lineChart').length ){
