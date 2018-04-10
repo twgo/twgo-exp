@@ -25,7 +25,18 @@ class RoundsController < ApplicationController
       if Round.count != build_counts(exp_name)
         result = ci_success_exp_git(exp_name)
         new_round = []
-        result.each{|r| new_round << {jid: r[:jid], cid: r[:cid], did: r[:did], info: r[:info], rate: r[:rate]}}
+        result.each { |r| new_round << {
+          jid: r[:jid],
+          cid: r[:cid],
+          did: r[:did],
+          info: r[:info],
+          rate: r[:rate],
+          repo: r[:repo],
+          expid: r[:expid],
+          sha1: r[:sha1],
+          branch: r[:branch],
+          }
+        }
         new_round.each{|n| Round.find_or_initialize_by(jid: n[:jid]).update!(n)}
       end
     end
@@ -64,6 +75,10 @@ class RoundsController < ApplicationController
         info: commit_message(exp_name, commit_hash),
         did: docker_id(exp_name, success_exp_detail_number),
         rate: exp_rate(exp_name, success_exp_detail_number),
+        repo: exp_name,
+        expid: success_exp_detail_number,
+        sha1: commit_hash[0]['SHA1'],
+        branch: commit_hash[0]['name'].split('/').last,
       }
     end
 

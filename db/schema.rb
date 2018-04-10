@@ -33,6 +33,10 @@ ActiveRecord::Schema.define(version: 20180323092601) do
     t.string "info"
     t.string "label"
     t.decimal "rate", precision: 10, scale: 2
+    t.string "repo"
+    t.string "expid"
+    t.string "sha1"
+    t.string "branch"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
