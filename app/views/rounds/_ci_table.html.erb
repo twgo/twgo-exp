@@ -16,7 +16,7 @@
   <tbody>
     <% params[:ci_data].each do |r| %>
       <tr>
-        <td><%= link_to "#{r.jid.split('/').last}", "http://10.32.0.120/job/#{r.jid}" %></td>
+        <td><%= link_to "#{r.expid}", "http://10.32.0.120/job/#{r.jid}" %></td>
         <td><%= r.info %></td>
         <td>
           <%= form_for r, method: "patch" do |f| %>
@@ -25,8 +25,8 @@
         </td>
         <td>
           <%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker", title: 'docker' %>
-          <%= link_to "🎁", "https://github.com/twgo/#{r.jid.split('/')[0]}/commit/#{r.cid.split('"')[3]}", title: 'code' %>
-          <%= link_to "✏️", githubs_path(rid: r.id, repo: r.jid.split('/').first, branch: r.cid.split('"')[-2].split('/').last), title: 'code' %>
+          <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
+          <%= link_to "✏️", githubs_path(rid: r.id, repo: r.repo, branch: r.branch), title: 'code' %>
         </td>
         <td><%= "#{r.rate}%" %></td>
       </tr>

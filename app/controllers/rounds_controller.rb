@@ -10,7 +10,8 @@ class RoundsController < ApplicationController
     @experiments = EXPERIMENTS
     @rounds = Round.where.not(rate: 0).order(id: :desc)
     @experiments.each do |e|
-      instance_variable_set("@ci_data_#{e.gsub('-', '_')}", Round.where("jid like ?", "#{e}%").where.not(rate: 0).order(id: :desc) )
+      instance_variable_set("@ci_data_#{e.gsub('-', '_')}",
+      Round.where(repo: e).where.not(rate: 0).order(id: :desc) )
     end
   end
 
@@ -54,7 +55,8 @@ class RoundsController < ApplicationController
     all_build_counts = build_counts(exp_name)
 
     all_exp_detail=[]
-    (1..all_build_counts).each{|x| all_exp_detail  << open("#{ENV['CI_HOST']}/#{exp_name}/#{x}/api/json", http_basic_authentication: ['ci','ci' ]) {|f| f.read } }
+    (1..all_build_counts).each{|x| all_exp_detail  <<
+      open("#{ENV['CI_HOST']}/#{exp_name}/#{x}/api/json", http_basic_authentication: ['ci','ci' ]) {|f| f.read } }
 
     success_exp_detail = []
     (1..all_build_counts).each do |x|
