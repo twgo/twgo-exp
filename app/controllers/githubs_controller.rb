@@ -3,7 +3,7 @@ require 'net/http'
 
 class GithubsController < ApplicationController
   def index
-    origin_code = get_dockerfile(params[:repo], params[:branch])
+    origin_code = get_dockerfile(params[:repo], params[:sha])
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
 
     @round = Round.where(id: params[:rid]) || Round.none
@@ -28,10 +28,8 @@ class GithubsController < ApplicationController
 
   private
 
-  def get_dockerfile project, branch
-    github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
-    url = github_contents.get(user: 'twgo', repo: project, path: 'Dockerfile', ref: branch).download_url
-
+  def get_dockerfile repo, sha
+    url = "https://raw.githubusercontent.com/twgo/#{repo}/#{sha}/Dockerfile"
     Net::HTTP.get(URI.parse(URI.unescape(URI.encode(url)))).force_encoding("UTF-8")
   end
 end

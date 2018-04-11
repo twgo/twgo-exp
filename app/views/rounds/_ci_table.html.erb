@@ -26,7 +26,7 @@
         <td>
           <%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker", title: 'docker' %>
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
-          <%= link_to "✏️", githubs_path(rid: r.id, repo: r.repo, branch: r.branch), title: 'code' %>
+          <%= link_to "✏️", githubs_path(rid: r.id, repo: r.repo, branch: r.branch, sha: r.sha1), title: 'code' %>
         </td>
         <td><%= "#{r.rate}%" %></td>
       </tr>
