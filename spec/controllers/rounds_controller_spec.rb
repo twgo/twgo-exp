@@ -15,4 +15,10 @@ RSpec.describe RoundsController, type: :controller do
       expect(Round.first.label).to eq 'update info'
     end
   end
+  describe "GET #refresh" do
+    it "refresh CI data" do
+      get :refresh
+      expect(response).to redirect_to(rounds_path)
+    end
+  end
 end
