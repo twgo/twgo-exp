@@ -4,8 +4,6 @@ require 'open-uri'
 class RoundsController < ApplicationController
   EXPERIMENTS = ['siann1-hak8_boo5-hing5', 'gi2-gian5_boo5-hing5']
 
-  HOST_URL = 'http://10.32.0.120/job'
-
   def index
     @experiments = EXPERIMENTS
     @rounds = Round.where.not(rate: 0).order(id: :desc)
@@ -88,7 +86,7 @@ class RoundsController < ApplicationController
   end
 
   def docker_id(exp_name, id)
-    a = open("#{HOST_URL}/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci','ci' ]) {|f| f.read } .split
+    a = open("#{ENV['CI_HOST']}/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci','ci' ]) {|f| f.read } .split
 
     a[(a.index('Id:</b>')+1)]
   end
@@ -99,7 +97,7 @@ class RoundsController < ApplicationController
   end
 
   def exp_rate(exp_name, id)
-    result = open("#{HOST_URL}/#{exp_name}/#{id}/consoleText", http_basic_authentication: ['ci','ci' ]) {|f| f.read }
+    result = open("#{ENV['CI_HOST']}/#{exp_name}/#{id}/consoleText", http_basic_authentication: ['ci','ci' ]) {|f| f.read }
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}.min || 0
   end
 
