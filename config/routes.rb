@@ -5,11 +5,11 @@ Rails.application.routes.draw do
 
   root to: "rounds#index"
 
-  resources :githubs
+  resources :githubs, only: [:update, :index]
 
   patch 'githubs', to: 'githubs#update'
 
-  resources :rounds do
+  resources :rounds, only: [:update, :index] do
     collection do
       get 'refresh'
     end
