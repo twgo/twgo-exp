@@ -34,5 +34,9 @@ RSpec.describe GithubsController, type: :controller do
       patch :update, params: @params_github
       expect(response).to redirect_to(rounds_path)
     end
+    it "update github code without upstream, and redirect to rounds_path" do
+      patch :update, params: @params_github_no_upstream
+      expect(response).to redirect_to(rounds_path)
+    end
   end
 end
