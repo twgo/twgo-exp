@@ -45,7 +45,7 @@ class RoundsController < ApplicationController
   private
 
   def build_counts(exp_name)
-    JSON.parse(open("#{ENV['CI_HOST']}/#{exp_name}/api/json",
+    JSON.parse(open("http://#{ENV['CI_HOST']}/job/#{exp_name}/api/json",
       http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read })['builds'].first['number']
   end
 
@@ -57,7 +57,7 @@ class RoundsController < ApplicationController
 
     all_exp_detail=[]
     (1..all_build_counts).each{|x| all_exp_detail  <<
-      open("#{ENV['CI_HOST']}/#{exp_name}/#{x}/api/json", http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read } }
+      open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{x}/api/json", http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read } }
 
     success_exp_detail = []
     (1..all_build_counts).each do |x|
@@ -89,7 +89,7 @@ class RoundsController < ApplicationController
   end
 
   def docker_id(exp_name, id)
-    a = open("#{ENV['CI_HOST']}/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read } .split
+    a = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/docker/", http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read } .split
 
     a[(a.index('Id:</b>')+1)]
   end
@@ -100,7 +100,7 @@ class RoundsController < ApplicationController
   end
 
   def exp_rate(exp_name, id)
-    result = open("#{ENV['CI_HOST']}/#{exp_name}/#{id}/consoleText", http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read }
+    result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: ['ci', ENV['CI_PWD'] ]) {|f| f.read }
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}.min || 0
   end
 
