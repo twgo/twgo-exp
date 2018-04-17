@@ -29,9 +29,9 @@
                     <%= f.hidden_field :repo, value: params[:repo] %>
                     <%= f.hidden_field :branch, value: params[:branch] %>
                     <%= f.hidden_field :upstream, value: params[:upstream] %>
-                    <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code %>
+                    <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code, style: "display:none;" %>
                     <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
-                  <% end %>
+                  <% end if params[:upstream] %>
                 </div>
               </div>
             </div>
