@@ -24,7 +24,7 @@
           <% end %>
         </td>
         <td>
-          <%= link_to '💿', "http://10.32.0.120/job/#{r.jid}/docker", title: 'docker' %>
+          <%= link_to '💿', "javascript:void(0)", title: "ssh -t #{ENV['CI_ID']}@#{ENV['CI_HOST']} \'docker run -it localhost:5000/#{r.repo}:#{r.expid} /bin/bash\'", onclick: "clip_cmd(this)" %>
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
           <%= (link_to "✏️", githubs_path(rid: r.id, repo: r.repo, branch: r.branch, sha: r.sha1), title: 'code') if (r.repo == 'gi2-gian5_boo5-hing5') %>
         </td>
@@ -33,3 +33,15 @@
     <% end %>
   </tbody>
 </table>
+<script>
+function clip_cmd(e) {
+  var x = document.createElement("INPUT");
+  x.setAttribute("type", "text");
+  x.setAttribute("type", "hidden");
+  x.value = e.title;
+  x.select();
+  document.execCommand("Copy");
+  alert(x.value);
+  x.remove();
+}
+</script>
