@@ -20,6 +20,7 @@
                       <%= hidden_field_tag :branch, params[:branch] %>
                       <%= hidden_field_tag :repo, params[:repo] %>
                       <%= hidden_field_tag :rid, params[:rid] %>
+                      <%= hidden_field_tag :jid, params[:jid] %>
                       <%= hidden_field_tag :sha, params[:sha] %>
                       <%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid_info), {onchange: 'this.form.submit()', prompt: 'choose upstream...'} %>
                       <p>接續實驗 <%= "#{params[:upstream]} #{Round.find_by(jid: params[:upstream]).info}" if params[:upstream].present? %></p>
@@ -29,6 +30,7 @@
                     <%= f.hidden_field :repo, value: params[:repo] %>
                     <%= f.hidden_field :branch, value: params[:branch] %>
                     <%= f.hidden_field :upstream, value: params[:upstream] %>
+                    <%= f.hidden_field :upstream_info, value: "From #{Round.find_by(jid: params[:upstream]).jid_info} \nto\n #{Round.find_by(jid: params[:jid]).jid_info}" %>
                     <%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code, style: "display:none;" %>
                     <%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
                   <% end if params[:upstream] %>

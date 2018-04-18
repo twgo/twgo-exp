@@ -6,13 +6,7 @@ RSpec.describe GithubsController, type: :controller do
       repo: 'pian7sik4',
       branch: 'master',
       content: 'This file is only for twgo-exp testing!',
-      upstream: 'another repo',
-      }}
-    @params_github_no_upstream = {github_code: {
-      repo: 'pian7sik4',
-      branch: 'master',
-      content: 'This file is only for twgo-exp testing!!',
-      upstream: '',
+      upstream_info: 'jid_info of upstream',
       }}
   end
 
@@ -32,10 +26,6 @@ RSpec.describe GithubsController, type: :controller do
   describe "GET #update" do
     it "update github code with upstream, and redirect to rounds_path" do
       patch :update, params: @params_github
-      expect(response).to redirect_to(rounds_path)
-    end
-    it "update github code without upstream, and redirect to rounds_path" do
-      patch :update, params: @params_github_no_upstream
       expect(response).to redirect_to(rounds_path)
     end
   end

@@ -11,7 +11,7 @@ class GithubsController < ApplicationController
   end
 
   def update
-    message = params[:github_code][:upstream].present? ?  "RUN after #{params[:github_code][:upstream]} by EXP" : 'Edit by EXP'
+    message = "EXP RUN: #{params[:github_code][:upstream_info]}"
     github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
     file = github_contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
 
