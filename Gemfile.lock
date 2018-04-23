@@ -384,6 +384,7 @@ DEPENDENCIES
   dotenv-rails
   gentelella-rails
   github_api
+  guard
   guard-rspec
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
