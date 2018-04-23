@@ -12,6 +12,7 @@ gem 'activeadmin'
 gem 'coveralls', require: false
 gem 'gentelella-rails'
 gem 'github_api'
+gem "octokit", "~> 4.0"
 gem 'dotenv-rails', groups: [:development, :test]
 gem "chartkick"
 
