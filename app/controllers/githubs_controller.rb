@@ -5,8 +5,7 @@ class GithubsController < ApplicationController
   def index
     @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5') || Round.none
     if params[:select_repo] = 'true'
-      @downstreams = Octokit.branches("twgo/gi2-gian5_boo5-hing5").map{ |x|
-        {down_name: x[:name], down_sha: x[:commit][:sha]}}
+      @downstreams = get_branches "twgo/gi2-gian5_boo5-hing5"
     end
     origin_code = get_dockerfile(params[:repo], params[:sha])
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
@@ -33,5 +32,12 @@ class GithubsController < ApplicationController
   def get_dockerfile repo, sha
     url = "https://raw.githubusercontent.com/twgo/#{repo}/#{sha}/Dockerfile"
     Net::HTTP.get(URI.parse(URI.unescape(URI.encode(url)))).force_encoding("UTF-8")
+  end
+
+  def get_branches org_repo
+    Octokit.branches(org_repo).map{ |x| {
+      down_name: x[:name],
+      down_sha: x[:commit][:sha],
+      }}
   end
 end
