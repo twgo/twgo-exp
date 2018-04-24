@@ -1,16 +1,16 @@
 <table id="datatable-buttons" class="table table-striped table-bordered">
   <col width=5%/>
   <col width=20%/>
-  <col width=40%/>
+  <col width=35%/>
   <col width=10%/>
-  <col width=5%/>
+  <col width=10%/>
   <thead>
     <tr>
       <th>實驗</th>
       <th>說明</th>
       <th>註記 (shift + enter)</th>
       <th>操作</th>
-      <th>錯誤率</th>
+      <th>錯誤率(%)</th>
     </tr>
   </thead>
   <tbody>
@@ -28,7 +28,7 @@
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
           <%= (link_to "✏️", githubs_path(jid: r.jid, rid: r.id, repo: r.repo, branch: r.branch, sha: r.sha1), title: 'code') if (r.repo == 'gi2-gian5_boo5-hing5') %>
         </td>
-        <td><%= "#{r.rate}%" %></td>
+        <td><%= (r.rate==999.0 ? '失敗' : r.rate==0.0 ? "無印結果" : r.rate) %></td>
       </tr>
     <% end %>
   </tbody>
