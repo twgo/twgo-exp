@@ -133,13 +133,12 @@ class RoundsController < ApplicationController
   end
 
   def login_jenkins
-    # @jenkins = JenkinsApi::Client.new(
-    #   server_ip: ENV['CI_HOST'],
-    #   server_port: '80',
-    #   username: ENV['CI_ID'],
-    #   password: ENV['CI_PWD'])
+    @jenkins = JenkinsApi::Client.new(
+      server_ip: ENV['CI_HOST'],
+      server_port: '80',
+      username: ENV['CI_ID'],
+      password: ENV['CI_PWD'])
 
-    # @repos = @jenkins.job.list_all
-    @repos = ['gi2-gian5_boo5-hing5', 'siann1-hak8_boo5-hing5']
+    @repos = @jenkins.job.list_all
   end
 end

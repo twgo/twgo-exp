@@ -2,12 +2,12 @@ require 'rails_helper'
 RSpec.describe RoundsController, type: :controller do
   before do
   end
-  describe "GET #index" do
-    it "returns a success response" do
-      get :index
-      expect(response).to be_success
-    end
-  end
+  # describe "GET #index" do
+  #   it "returns a success response" do
+  #     get :index
+  #     expect(response).to be_success
+  #   end
+  # end
   describe "#update" do
     it 'update label of a round' do
       Round.create(jid: 'exp/1', info: 'test', label: 'info')
