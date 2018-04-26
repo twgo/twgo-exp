@@ -15,6 +15,7 @@ gem 'github_api'
 gem "octokit", "~> 4.0"
 gem 'dotenv-rails', groups: [:development, :test]
 gem "chartkick"
+gem 'jenkins_api_client'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.5'

@@ -4,7 +4,13 @@ require 'open-uri'
 class RoundsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  EXPERIMENTS = ['siann1-hak8_boo5-hing5', 'gi2-gian5_boo5-hing5']
+  @jenkins = JenkinsApi::Client.new(
+    server_ip: ENV['CI_HOST'],
+    server_port: '80',
+    username: ENV['CI_ID'],
+    password: ENV['CI_PWD'])
+
+  EXPERIMENTS = @jenkins.job.list_all
 
   def index
     @experiments = EXPERIMENTS
@@ -22,7 +28,7 @@ class RoundsController < ApplicationController
   end
 
   def refresh
-    @client = Octokit::Client.new(login: ENV['GITHUB_ID'] , password: ENV['GITHUB_SECRET'])
+    @github_client = Octokit::Client.new(login: ENV['GITHUB_ID'] , password: ENV['GITHUB_SECRET'])
     EXPERIMENTS.each do |exp_name|
       if Round.count != build_counts(exp_name)
         result = ci_success_exp_git(exp_name)
@@ -48,8 +54,7 @@ class RoundsController < ApplicationController
   private
 
   def build_counts(exp_name)
-    JSON.parse(open("http://#{ENV['CI_HOST']}/job/#{exp_name}/api/json",
-      http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read })['builds'].first['number']
+    @jenkins.job.get_current_build_number(exp_name)
   end
 
   def ci_success_exp_git(exp_name)
@@ -118,7 +123,7 @@ class RoundsController < ApplicationController
   end
 
   def commit_message(exp_name, commit_hash)
-    @client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1']).commit.message
+    @github_client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1']).commit.message
   end
 
   def exp_rate(exp_name, id, status)
