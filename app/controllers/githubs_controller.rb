@@ -37,7 +37,8 @@ class GithubsController < ApplicationController
   end
 
   def get_branches org_repo
-    Octokit.branches(org_repo).map{ |x| {
+    github_client = Octokit::Client.new(login: ENV['GITHUB_ID'] , password: ENV['GITHUB_SECRET'])
+    github_client.branches(org_repo).map{ |x| {
       down_name: x[:name],
       down_sha: x[:commit][:sha],
       }}
