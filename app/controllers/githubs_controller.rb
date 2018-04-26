@@ -3,7 +3,7 @@ require 'net/http'
 
 class GithubsController < ApplicationController
   def index
-    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5') || Round.none
+    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: '0.0').where.not(rate: '999.0') || Round.none
     if params[:select_repo] = 'true'
       @downstreams = get_branches "twgo/gi2-gian5_boo5-hing5"
     end
