@@ -2,6 +2,8 @@ require 'json'
 require 'open-uri'
 
 class RoundsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   EXPERIMENTS = ['siann1-hak8_boo5-hing5', 'gi2-gian5_boo5-hing5']
 
   def index

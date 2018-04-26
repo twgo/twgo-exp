@@ -2,6 +2,8 @@ require 'github_api'
 require 'net/http'
 
 class GithubsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
     @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: '0.0').where.not(rate: '999.0') || Round.none
     if params[:select_repo] = 'true'
