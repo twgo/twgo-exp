@@ -3,17 +3,10 @@ require 'open-uri'
 
 class RoundsController < ApplicationController
   skip_before_action :verify_authenticity_token
-
-  @jenkins = JenkinsApi::Client.new(
-    server_ip: ENV['CI_HOST'],
-    server_port: '80',
-    username: ENV['CI_ID'],
-    password: ENV['CI_PWD'])
-
-  EXPERIMENTS = @jenkins.job.list_all
+  before_action :login_jenkins, only: [:index, :refresh]
 
   def index
-    @experiments = EXPERIMENTS
+    @experiments = @repos
     @rounds = Round.order(id: :desc)
     @experiments.each do |e|
       instance_variable_set("@ci_data_#{e.gsub('-', '_')}",
@@ -29,7 +22,7 @@ class RoundsController < ApplicationController
 
   def refresh
     @github_client = Octokit::Client.new(login: ENV['GITHUB_ID'] , password: ENV['GITHUB_SECRET'])
-    EXPERIMENTS.each do |exp_name|
+    @repos.each do |exp_name|
       if Round.count != build_counts(exp_name)
         result = ci_success_exp_git(exp_name)
         new_round = []
@@ -137,5 +130,15 @@ class RoundsController < ApplicationController
 
   def round_params
     params.require(:round).permit(:label)
+  end
+
+  def login_jenkins
+    @jenkins = JenkinsApi::Client.new(
+      server_ip: ENV['CI_HOST'],
+      server_port: '80',
+      username: ENV['CI_ID'],
+      password: ENV['CI_PWD'])
+
+    @repos = @jenkins.job.list_all
   end
 end
