@@ -116,7 +116,7 @@ class RoundsController < ApplicationController
   end
 
   def commit_message(exp_name, commit_hash)
-    @client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1']).message
+    @client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1']).commit.message
   end
 
   def exp_rate(exp_name, id, status)
