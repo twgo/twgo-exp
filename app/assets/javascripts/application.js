@@ -10,9 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require rails-ujs
 //= require gentelella
 //= require gentelella-custom
+//= require rails-ujs
 //= require Chart.bundle
 //= require chartkick
 //= require_tree .
