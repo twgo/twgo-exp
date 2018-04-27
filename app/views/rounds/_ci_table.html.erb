@@ -24,7 +24,7 @@
           <% end %>
         </td>
         <td>
-          <%= link_to '💿', "javascript:void(0)", title: "docker run -it localhost:5000/#{r.repo}:#{r.expid} /bin/bash", onclick: "clip_cmd(this)" %>
+          <%= (link_to '💿', "javascript:void(0)", title: "docker run -it localhost:5000/#{r.repo}:#{r.expid} /bin/bash", onclick: "clip_cmd(this)") unless ((r.rate == 0.0) || (r.rate == 999.0)) %>
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
           <%= (link_to "✏️", githubs_path(jid: r.jid, rid: r.id, repo: r.repo, branch: r.branch, sha: r.sha1), title: 'code') if (r.repo == 'gi2-gian5_boo5-hing5') %>
         </td>
