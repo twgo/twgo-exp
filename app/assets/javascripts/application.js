@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= require turbolinks
 //= require gentelella
 //= require gentelella-custom
 //= require Chart.bundle

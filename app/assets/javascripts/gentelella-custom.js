@@ -126,9 +126,9 @@ $MENU_TOGGLE.on('click', function() {
 	}).parent().addClass('active');
 
 	// recompute content when resizing
-	$(window).smartresize(function(){
-		setContentHeight();
-	});
+	// $(window).smartresize(function(){
+	// 	setContentHeight();
+	// });
 
 	setContentHeight();
 
@@ -177,11 +177,11 @@ $(document).ready(function() {
 // /Panel toolbox
 
 // Tooltip
-$(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip({
-        container: 'body'
-    });
-});
+// $(document).ready(function() {
+//     $('[data-toggle="tooltip"]').tooltip({
+//         container: 'body'
+//     });
+// });
 // /Tooltip
 
 // Progressbar
