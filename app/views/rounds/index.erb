@@ -1,95 +1,86 @@
-<body class="nav-md">
-  <div class="container body">
-    <div class="main_container">
-      <%= render 'layouts/nav' %>
-      <!-- page content -->
-      <div class="right_col" role="main">
-        <div class="">
-          <div class="page-title">
-            <div class="title_left">
-              <h3>實驗集</h3>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-          <div class="">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>刷新<%= link_to ' 🔁', refresh_rounds_path, title: 'REFRESH' %></h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                      <% @experiments.each_with_index do |e,i| %>
-                      <li role="presentation" class=""><a href='#tab_content_<%= e %>' id='ci_tab_<%= e %>' role="tab" data-toggle="tab"><%= e %></a>
-                      </li>
-                      <% end %>
-                    </ul>
-                    <div id="myTabContent" class="tab-content">
-                      <% @experiments.each do |e| %>
-                        <div role="tabpanel" class="tab-pane fade" id='tab_content_<%= e %>' aria-labelledby='ci_tab_<%= e %>'>
-                          <%= render 'ci_table_sub', params: {
-                            ci_data: instance_variable_get("@ci_data_#{e.gsub('-', '_')}"),
-                            ci_name: e,
-                            ci_group: instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:branch),
-                          } %>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-      <!-- /page content -->
-
-      <!-- /page content -->
-    </div>
-  </div>
+<div class="main_container">
+	<%= render 'layouts/nav' %>
+	<div class="right_col" role="main">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>實驗集</h3>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>刷新<%= link_to ' 🔁', refresh_rounds_path, title: 'REFRESH' %></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li>
+							<a class="collapse-link">
+								<i class="fa fa-chevron-up"></i>
+							</a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="" role="tabpanel" data-example-id="togglable-tabs">
+						<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+							<% @experiments.each_with_index do |e,i| %>
+								<li role="presentation" class="">
+									<a href='#tab_content_<%= e %>' id='ci_tab_<%= e %>' role="tab" data-toggle="tab"><%= e %></a>
+								</li>
+							<% end %>
+						</ul>
+						<div id="myTabContent" class="tab-content">
+							<% @experiments.each do |e| %>
+								<div role="tabpanel" class="tab-pane fade" id='tab_content_<%= e %>' aria-labelledby='ci_tab_<%= e %>'>
+									<%= render 'ci_table_sub', params: { ci_data: instance_variable_get("@ci_data_#{e.gsub('-', '_')}"), ci_name: e, ci_group: instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:branch), } %>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</div>
 <script>
-$('.label_area').keypress(function(ev){
-  if(ev.which == 13 && ev.shiftKey){
-       $(this).closest('form').submit();
-   }
+$('.label_area').keypress(function (ev) {
+	if (ev.which == 13 && ev.shiftKey) {
+		$(this).closest('form').submit();
+	}
 });
 </script>
 
 <% @experiments.each do |e| %>
 <% instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:branch).uniq.each_with_index do |r, i| %>
-  <%= content_tag :div, id: "#{e}_#{i}_ci_key", data: {temp: @rounds.where(repo: e, branch: r).pluck(:expid)} do %>
-  <% end %>
-  <%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where(repo: e, branch: r).pluck(:rate).map(&:to_i)} do %>
-  <% end %>
-  <script>
-  if ($('#<%= "#{e}_#{i}" %>_lineChart').length ){
-        var ctx = document.getElementById('<%= "#{e}_#{i}" %>_lineChart');
-        var lineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: $('#<%= "#{e}_#{i}" %>_ci_key').data('temp').reverse(),
-          datasets: [{
-          label: '<%= "#{e}_#{r}" %>',
-          backgroundColor: "rgba(38, 185, 154, 0.31)",
-          borderColor: "rgba(38, 185, 154, 0.7)",
-          pointBorderColor: "rgba(38, 185, 154, 0.7)",
-          pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointBorderWidth: 1,
-          data: $('#<%= "#{e}_#{i}" %>_ci_value').data('temp').reverse()
-          }]
-        },
-        });
-      }
-  </script>
-  <% end %>
+	<%= content_tag :div, id: "#{e}_#{i}_ci_key", data: {temp: @rounds.where(repo: e, branch: r).pluck(:expid)} do %>
+<% end %>
+<%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where(repo: e, branch: r).pluck(:rate).map(&:to_i)} do %>
+<% end %>
+<script>
+if ($('#<%= "#{e}_#{i}" %>_lineChart').length) {
+	var ctx = document.getElementById('<%= "#{e}_#{i}" %>_lineChart');
+	var lineChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: $('#<%= "#{e}_#{i}" %>_ci_key').data('temp').reverse(),
+			datasets: [
+				{
+					label: '<%= "#{e}_#{r}" %>',
+					backgroundColor: "rgba(38, 185, 154, 0.31)",
+					borderColor: "rgba(38, 185, 154, 0.7)",
+					pointBorderColor: "rgba(38, 185, 154, 0.7)",
+					pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+					pointHoverBackgroundColor: "#fff",
+					pointHoverBorderColor: "rgba(220,220,220,1)",
+					pointBorderWidth: 1,
+					data: $('#<%= "#{e}_#{i}" %>_ci_value').data('temp').reverse()
+				}
+			]
+		}
+	});
+}
+</script>
+<% end %>
 <% end %>
