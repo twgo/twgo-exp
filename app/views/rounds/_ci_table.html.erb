@@ -16,7 +16,7 @@
   <tbody>
     <% params[:ci_data].each do |r| %>
       <tr>
-        <td><%= link_to "#{r.expid}", "http://10.32.0.120/job/#{r.jid}" %></td>
+        <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}" %></td>
         <td><%= r.info %></td>
         <td>
           <%= form_for r, method: "patch" do |f| %>
