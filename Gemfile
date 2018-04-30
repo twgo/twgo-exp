@@ -10,7 +10,13 @@ ruby '~> 2.4.2'
 gem 'devise'
 gem 'activeadmin'
 gem 'coveralls', require: false
+gem 'jquery-rails'
 gem 'gentelella-rails'
+gem 'modernizr-rails'
+
+gem 'jquery-datatables-rails'
+gem 'ajax-datatables-rails'
+
 gem 'github_api'
 gem "octokit", "~> 4.0"
 gem 'dotenv-rails', groups: [:development, :test]
