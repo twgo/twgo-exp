@@ -32,7 +32,6 @@ class JenkinsWorker
         new_round.each{|n| Round.find_or_initialize_by(jid: n[:jid]).update!(n)}
       end
     end
-    redirect_to rounds_path
   end
 
   private

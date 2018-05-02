@@ -19,7 +19,7 @@ class RoundsController < ApplicationController
     end
 
     # siann1 37 miss deleted, so -1
-    if Round.all != (all_round_counts - 1)
+    if Round.count != (all_round_counts - 1)
       JenkinsWorker.perform_async
     end
   end
