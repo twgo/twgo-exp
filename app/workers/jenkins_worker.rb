@@ -119,10 +119,6 @@ class JenkinsWorker
     end
   end
 
-  def round_params
-    params.require(:round).permit(:label)
-  end
-
   def login_jenkins
     @jenkins = JenkinsApi::Client.new(
       server_ip: ENV['CI_HOST'],

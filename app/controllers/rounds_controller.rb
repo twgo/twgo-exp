@@ -45,4 +45,8 @@ class RoundsController < ApplicationController
   def build_counts(exp_name)
     @jenkins.job.get_current_build_number(exp_name)
   end
+
+  def round_params
+    params.require(:round).permit(:label)
+  end
 end
