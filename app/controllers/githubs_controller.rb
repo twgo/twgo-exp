@@ -11,9 +11,15 @@ class GithubsController < ApplicationController
     end
     origin_code = get_dockerfile(params[:repo], params[:sha])
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
+
+    if params[:downstream]
+      @round_in_history = Round.where(id: DownStream.where(branch: params[:downstream].split('oooo')[0]).ids)
+    end
   end
 
   def update
+    Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
+    
     message = "EXP RUN: #{params[:github_code][:upstream_info]}"
     github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
     file = github_contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
@@ -26,7 +32,7 @@ class GithubsController < ApplicationController
       sha: file.sha,
     )
 
-    redirect_to rounds_path
+    redirect_to githubs_path(select_down: 'yes'), notice: "實驗已建立!"
   end
 
   private

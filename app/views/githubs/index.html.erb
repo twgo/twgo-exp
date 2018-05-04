@@ -12,7 +12,10 @@
 								<%= hidden_field_tag :repo, 'gi2-gian5_boo5-hing5' %>
 								<%= select_tag :downstream, options_for_select(@downstreams.map { |obj| [ obj[:down_name], "#{obj[:down_name]}oooo#{obj[:down_sha]}" ] }), {onchange: 'this.form.submit()', prompt: 'choose downstream...'} %>
 								<p>下游實驗
-									<%= "#{params[:downstream].split('oooo')[0]}" if params[:downstream].present? %></p>
+									<% if params[:downstream].present? %>
+										<%= "#{params[:downstream].split('oooo')[0]}" %></p>
+										<%= render '/rounds/ci_table', params: {ci_data: @round_in_history, source: 'github'}  %>
+									<% end %>
 							<% end %>
 						<% end %>
 						<% if (params[:repo] == 'gi2-gian5_boo5-hing5') %>
@@ -30,8 +33,9 @@
 									<%= hidden_field_tag :sha, params[:sha] %>
 								<% end -%>
 								<%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid_info), {onchange: 'this.form.submit()', prompt: 'choose upstream...'} %>
-								<p>接上游實驗
-									<%= "#{params[:upstream]} #{Round.find_by(jid: params[:upstream]).info}" if params[:upstream].present? %></p>
+								<% if params[:upstream].present? %>
+								<p><%= params[:branch] %>接上游實驗<%= "#{params[:upstream]} #{Round.find_by(jid: params[:upstream]).info}" %></p>
+								<% end %>
 							<% end -%>
 						<% end %>
 						<%= form_for 'github_code', method: "patch" do |f| %>
