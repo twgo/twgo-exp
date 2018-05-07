@@ -30,6 +30,11 @@ class RoundsController < ApplicationController
     redirect_to rounds_path
   end
 
+  def refresh
+    JenkinsWorker.perform_async
+    redirect_to rounds_path
+  end
+
   private
 
   def login_jenkins
