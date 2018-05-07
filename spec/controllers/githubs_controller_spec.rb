@@ -2,11 +2,13 @@ require 'rails_helper'
 require 'octokit'
 RSpec.describe GithubsController, type: :controller do
   before do
+    Round.create(jid: 'siann1-hak8_boo5-hing5/1')
     @params = {repo: 'gi2-gian5_boo5-hing5', sha: 'master'}
     @params_github = {github_code: {
       repo: 'pian7sik4',
       branch: 'master',
       content: 'This file is only for twgo-exp testing!',
+      upstream: 'siann1-hak8_boo5-hing5/1',
       upstream_info: 'jid_info of upstream',
       }}
   end
@@ -33,7 +35,7 @@ RSpec.describe GithubsController, type: :controller do
   describe "GET #update" do
     it "update github code with upstream, and redirect to rounds_path" do
       patch :update, params: @params_github
-      expect(response).to redirect_to(rounds_path)
+      expect(response).to redirect_to(githubs_path(select_down: 'yes'))
     end
   end
 end
