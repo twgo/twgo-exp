@@ -112,9 +112,11 @@ class JenkinsWorker
   def exp_rate(exp_name, id, status)
     if status=='FAILURE'
       999
-    else
+    elsif status=='SUCCESS'
       result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
       result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}.min || 0
+    else
+      888
     end
   end
 

@@ -39,7 +39,7 @@
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
           <%= (link_to "✏️", githubs_path(jid: r.jid, rid: r.id, repo: r.repo, branch: r.branch, sha: r.sha1), title: 'code') if (r.repo == 'gi2-gian5_boo5-hing5') %>
         </td>
-        <td><%= (r.rate==999.0 ? '失敗' : r.rate==0.0 ? 'N/A' : r.rate) %></td>
+        <td><%= (r.rate==999.0 ? '失敗' : (r.rate==0.0 ? '無印結果' : ( r.rate==888.0 ? '正在跑' : r.rate))) %></td>
       </tr>
     <% end %>
   </tbody>
