@@ -7,3 +7,23 @@ services:
       - .:/app
     ports:
       - "3000:3000"
+    links:
+      - redis      
+  sidekiq:
+    volumes:
+      - .:/app
+    depends_on:
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq
+    links:
+      - redis
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/var/lib/redis
+    command: redis-server --appendonly yes
+volumes:
+  redis-data:

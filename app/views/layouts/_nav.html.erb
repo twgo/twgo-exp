@@ -1,0 +1,36 @@
+<div class="top_nav">
+  <div class="nav_menu">
+    <nav>
+      <ul class="nav navbar-nav">
+        <li>
+          <%= link_to root_path do %>
+          <i class="fa fa-dashboard"></i>
+          實驗集
+          <% end %>
+        </li>
+        <li>
+          <%= link_to githubs_path(select_down: 'yes') do %>
+          <i class="fa fa-dashboard"></i>
+          接實驗
+          <% end %>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="">
+          <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <!-- <img src="images/img.jpg" alt=""> -->
+            TWGO-EXP
+            <span class=" fa fa-fw fa-angle-down"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-usermenu pull-right">
+            <li>
+              <a href="https://github.com/twgo/twgo-exp/issues">
+                <i class="fa fa-fw fa-info-circle"></i>
+                GitHub</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

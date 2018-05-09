@@ -126,9 +126,9 @@ $MENU_TOGGLE.on('click', function() {
 	}).parent().addClass('active');
 
 	// recompute content when resizing
-	$(window).smartresize(function(){
-		setContentHeight();
-	});
+	// $(window).smartresize(function(){
+	// 	setContentHeight();
+	// });
 
 	setContentHeight();
 
@@ -177,11 +177,11 @@ $(document).ready(function() {
 // /Panel toolbox
 
 // Tooltip
-$(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip({
-        container: 'body'
-    });
-});
+// $(document).ready(function() {
+//     $('[data-toggle="tooltip"]').tooltip({
+//         container: 'body'
+//     });
+// });
 // /Tooltip
 
 // Progressbar
@@ -205,16 +205,16 @@ $(document).ready(function() {
 
 
 // iCheck
-$(document).ready(function() {
-    if ($("input.flat")[0]) {
-        $(document).ready(function () {
-            $('input.flat').iCheck({
-                checkboxClass: 'icheckbox_flat-green',
-                radioClass: 'iradio_flat-green'
-            });
-        });
-    }
-});
+// $(document).ready(function() {
+//     if ($("input.flat")[0]) {
+//         $(document).ready(function () {
+//             $('input.flat').iCheck({
+//                 checkboxClass: 'icheckbox_flat-green',
+//                 radioClass: 'iradio_flat-green'
+//             });
+//         });
+//     }
+// });
 // /iCheck
 
 // Table

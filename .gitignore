@@ -13,6 +13,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/coverage/*
 /public/results/*
 /tmp/*
 !/log/.keep
@@ -22,3 +23,7 @@
 /yarn-error.log
 
 .byebug_history
+.env
+
+
+dump.rdb

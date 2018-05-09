@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
-  root to: "admin/dashboard#index"
+  # devise_for :users, ActiveAdmin::Devise.config
+  # ActiveAdmin.routes(self)
 
-  get "/index.html" => "static#indexkp"
+  root to: "rounds#index"
 
-  resources :static do
+  resources :githubs, only: [:update, :index]
+
+  patch 'githubs', to: 'githubs#update'
+
+  resources :rounds, only: [:update, :index] do
     collection do
-      get 'download'
+      get 'refresh'
     end
   end
 end

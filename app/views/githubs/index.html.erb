@@ -1,0 +1,57 @@
+<div class="main_container">
+	<%= render 'layouts/nav' %>
+	<div class="right_col" role="main">
+		<div class="">
+			<div class="">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="x_panel">
+						<div class="x_content">
+							<% if (params[:select_down] == 'yes') %>
+								<%= form_tag(githubs_path, method: :get) do -%>
+								<%= hidden_field_tag :select_down, 'yes' %>
+								<%= hidden_field_tag :repo, 'gi2-gian5_boo5-hing5' %>
+								<%= select_tag :downstream, options_for_select(@downstreams.map { |obj| [ obj[:down_name], "#{obj[:down_name]}oooo#{obj[:down_sha]}" ] }), {onchange: 'this.form.submit()', prompt: 'choose downstream...'} %>
+								<p>下游實驗
+									<% if params[:downstream].present? %>
+										<%= "#{params[:downstream].split('oooo')[0]}" %></p>
+										<%= render '/rounds/ci_table', params: {ci_data: @round_in_history, source: 'github'}  %>
+									<% end %>
+							<% end %>
+						<% end %>
+						<% if (params[:repo] == 'gi2-gian5_boo5-hing5') %>
+							<%= form_tag(githubs_path, method: :get) do -%>
+							<% if (params[:downstream].present?) %>
+								<%= hidden_field_tag :repo, 'gi2-gian5_boo5-hing5' %>
+								<%= hidden_field_tag :branch, params[:downstream].split('oooo')[0] %>
+								<%= hidden_field_tag :sha, params[:downstream].split('oooo')[1] %>
+								<%= hidden_field_tag :downstream, params[:downstream] %>
+							<% else %>
+								<%= hidden_field_tag :branch, params[:branch] %>
+								<%= hidden_field_tag :repo, params[:repo] %>
+								<%# hidden_field_tag :rid, params[:rid] %>
+									<%= hidden_field_tag :jid, params[:jid] %>
+									<%= hidden_field_tag :sha, params[:sha] %>
+								<% end -%>
+								<%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid_info), {onchange: 'this.form.submit()', prompt: 'choose upstream...'} %>
+								<% if params[:upstream].present? %>
+								<p><%= params[:branch] %>接上游實驗<%= "#{params[:upstream]} #{Round.find_by(jid: params[:upstream]).info}" %></p>
+								<% end %>
+							<% end -%>
+						<% end %>
+						<%= form_for 'github_code', method: "patch" do |f| %>
+						<%= f.hidden_field :repo, value: params[:repo] %>
+						<%= f.hidden_field :branch, value: params[:branch] %>
+						<%= f.hidden_field :upstream, value: params[:upstream] %>
+						<%= (f.hidden_field :downstream, value: params[:downstream]) if params[:downstream] %>
+						<%= f.hidden_field :upstream_info, value: "From #{Round.find_by(jid: params[:upstream]).jid_info} \nto\n #{Round.find_by(jid: params[:jid]).jid_info if params[:jid]}" %>
+						<%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code, style: "display:none;" %>
+						<%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
+						<% end if params[:upstream] %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

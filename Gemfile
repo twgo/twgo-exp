@@ -10,7 +10,19 @@ ruby '~> 2.4.2'
 gem 'devise'
 gem 'activeadmin'
 gem 'coveralls', require: false
+gem 'jquery-rails'
 gem 'gentelella-rails'
+gem 'modernizr-rails'
+
+gem 'jquery-datatables-rails'
+gem 'ajax-datatables-rails'
+
+gem 'github_api'
+gem "octokit", "~> 4.0"
+gem 'dotenv-rails', groups: [:development, :test]
+gem "chartkick"
+gem 'jenkins_api_client'
+gem 'sidekiq'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -29,7 +41,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -56,6 +68,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'guard'
   gem 'guard-rspec', require: false
 end
 

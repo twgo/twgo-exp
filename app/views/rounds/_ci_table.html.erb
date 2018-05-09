@@ -1,0 +1,47 @@
+<table id="datatable-buttons" class="table table-striped table-bordered">
+  <col width=5%/>
+  <col width=20%/>
+  <col width=35%/>
+  <col width=10%/>
+  <col width=10%/>
+  <thead>
+    <tr>
+      <th>實驗</th>
+      <th>說明</th>
+      <th>註記 (shift + enter)</th>
+      <th>操作</th>
+      <th>錯誤率(%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% params[:ci_data].each do |r| %>
+      <tr>
+        <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}" %></td>
+        <td><%= r.info %></td>
+        <td>
+          <%= form_for r, method: "patch" do |f| %>
+            <%= f.text_area :label, style: 'width: 100%', class: 'label_area'%>
+          <% end %>
+        </td>
+        <td>
+          <%= (link_to '💿', "javascript:void(0)", title: "docker run -it localhost:5000/#{r.repo}:#{r.expid} /bin/bash", onclick: "clip_cmd(this)") unless ((r.rate == 0.0) || (r.rate == 999.0)) %>
+          <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/commit/#{r.sha1}", title: 'code' %>
+          <%= (link_to "✏️", githubs_path(jid: r.jid, rid: r.id, repo: r.repo, branch: r.branch, sha: r.sha1), title: 'code') if (r.repo == 'gi2-gian5_boo5-hing5') %>
+        </td>
+        <td><%= (r.rate==999.0 ? '失敗' : r.rate==0.0 ? 'N/A' : r.rate) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<script>
+function clip_cmd(e) {
+  var x = document.createElement("INPUT");
+  x.setAttribute("type", "text");
+  x.setAttribute("type", "hidden");
+  x.value = e.title;
+  x.select();
+  document.execCommand("Copy");
+  alert(x.value);
+  x.remove();
+}
+</script>
