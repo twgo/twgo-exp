@@ -1,12 +1,20 @@
 <table id="datatable-buttons" class="table table-striped table-bordered">
   <col width=5%/>
+  <% if params[:tag] == 'all' %>
+  <col width=5%/>
+  <col width=15%/>
+  <% else %>
   <col width=20%/>
+  <% end %>
   <col width=35%/>
   <col width=10%/>
   <col width=10%/>
   <thead>
     <tr>
       <th>實驗</th>
+      <% if params[:tag] == 'all' %>
+        <th>分支</th>
+      <% end %>
       <th>說明</th>
       <th>註記 (shift + enter)</th>
       <th>操作</th>
@@ -17,6 +25,9 @@
     <% params[:ci_data].each do |r| %>
       <tr>
         <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}" %></td>
+        <% if params[:tag] == 'all' %>
+          <td><%= r.branch %></td>
+        <% end %>
         <td><%= r.info %></td>
         <td>
           <%= form_for r, method: "patch" do |f| %>
