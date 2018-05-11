@@ -114,7 +114,7 @@ class JenkinsWorker
       999
     elsif status=='SUCCESS'
       result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
-      result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}.min || 0
+      result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-2] || 0
     else
       888
     end
