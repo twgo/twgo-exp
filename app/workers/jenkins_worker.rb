@@ -114,7 +114,7 @@ class JenkinsWorker
       999
     elsif status=='SUCCESS'
       result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
-      result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-2] || 0
+      tri4_no_si result
     else
       888
     end
@@ -128,5 +128,9 @@ class JenkinsWorker
       password: ENV['CI_PWD'])
 
     @repos = @jenkins.job.list_all
+  end
+
+  def tri4_no_si result
+    result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-2] || 0
   end
 end
