@@ -30,4 +30,5 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  siann1-hak8_boo5-hing5: '聲學模型訓練'
+  gi2-gian5_boo5-hing5: '聲學模型測試'

@@ -9,7 +9,7 @@
 						<ul class="nav nav-tabs bar_tabs" role="tablist">
 							<% @experiments.each_with_index do |e,i| %>
 								<li role="presentation" class="">
-									<a href='#tab_content_<%= e %>' id='ci_tab_<%= e %>' role="tab" data-toggle="tab"><%= e %></a>
+									<a href='#tab_content_<%= e %>' id='ci_tab_<%= e %>' role="tab" data-toggle="tab"><%= t e %></a>
 								</li>
 							<% end %>
 						</ul>
