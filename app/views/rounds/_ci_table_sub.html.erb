@@ -1,5 +1,5 @@
 <div class="" role="tabpanel" data-example-id="togglable-tabs">
-	<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+	<ul class="nav nav-tabs bar_tabs" role="tablist">
 		<li role="presentation">
 			<a href="#<%= params[:ci_name] %>" role="tab" data-toggle="tab" aria-expanded="false">ALL</a>
 		</li>
@@ -9,13 +9,13 @@
 			</li>
 		<% end %>
 	</ul>
-	<div id="myTabContent" class="tab-content">
+	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane fade" id="<%= params[:ci_name] %>">
-			<%= render 'ci_table', params: {ci_data: params[:ci_data], tag: 'all'} %>
+			<%= render 'ci_table', params: {ci_data: params[:ci_data], tag: 'all', repo: params[:ci_name]} %>
 		</div>
 		<% params[:ci_group].uniq.each_with_index do |r,i| %>
 			<div role="tabpanel" class="<%= i==0 ? 'tab-pane fade active in' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
-				<%= render 'ci_table', params: {ci_data: params[:ci_data].where(branch: r)} %>
+				<%= render 'ci_table', params: {ci_data: params[:ci_data].where(branch: r), repo: params[:ci_name]} %>
 				<!-- <canvas id='<%# "#{params[:ci_name]}_#{i}" %>_lineChart'></canvas> -->
 			</div>
 		<% end %>

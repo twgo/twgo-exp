@@ -6,14 +6,14 @@
 			<div class="x_panel">
 				<div class="x_content">
 					<div class="" role="tabpanel" data-example-id="togglable-tabs">
-						<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+						<ul class="nav nav-tabs bar_tabs" role="tablist">
 							<% @experiments.each_with_index do |e,i| %>
 								<li role="presentation" class="">
 									<a href='#tab_content_<%= e %>' id='ci_tab_<%= e %>' role="tab" data-toggle="tab"><%= e %></a>
 								</li>
 							<% end %>
 						</ul>
-						<div id="myTabContent" class="tab-content">
+						<div class="tab-content">
 							<% @experiments.each do |e| %>
 								<div role="tabpanel" class="tab-pane fade" id='tab_content_<%= e %>' aria-labelledby='ci_tab_<%= e %>'>
 									<%= render 'ci_table_sub', params: { ci_data: instance_variable_get("@ci_data_#{e.gsub('-', '_')}"), ci_name: e, ci_group: instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:branch), } %>
