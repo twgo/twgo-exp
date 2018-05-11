@@ -28,24 +28,24 @@
 									<%= hidden_field_tag :sha, params[:sha] %>
 								<% end -%>
 								<%= select_tag :upstream, options_from_collection_for_select(@upstream, :jid, :jid_info), {onchange: 'this.form.submit()', prompt: 'choose upstream...'} %>
-								<% if params[:downstream].present? %>
-									<p>下游實驗<%= "#{params[:downstream].split('oooo')[0]}" %></p>
-									<%= render '/rounds/ci_table', params: {ci_data: @round_in_history, source: 'github'}  %>
-								<% end %>
 								<% if params[:upstream].present? %>
-								<p><%= params[:branch] %>接上游實驗<%= "#{params[:upstream]} #{Round.find_by(jid: params[:upstream]).info}" %></p>
+								<p><%= params[:branch] %>接上游實驗<%= "#{Round.find_by(jid: params[:upstream]).jid_info}" %></p>
+								<%= form_for 'github_code', method: "patch" do |f| %>
+								<%= f.hidden_field :repo, value: params[:repo] %>
+								<%= f.hidden_field :branch, value: params[:branch] %>
+								<%= f.hidden_field :upstream, value: params[:upstream] %>
+								<%= (f.hidden_field :downstream, value: params[:downstream]) if params[:downstream] %>
+								<%= f.hidden_field :upstream_info, value: "From #{Round.find_by(jid: params[:upstream]).jid_info}" %>
+								<%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code, style: "display:none;" %>
+								<%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
+								<% end %>
+								<% end %>
+								<% if params[:downstream].present? %>
+								<p>下游實驗<%= "#{params[:downstream].split('oooo')[0]}已接過" %></p>
+								<%= render '/rounds/ci_table', params: {ci_data: @round_in_history, source: 'github', tag: 'all'}  %>
 								<% end %>
 							<% end -%>
 						<% end %>
-						<%= form_for 'github_code', method: "patch" do |f| %>
-						<%= f.hidden_field :repo, value: params[:repo] %>
-						<%= f.hidden_field :branch, value: params[:branch] %>
-						<%= f.hidden_field :upstream, value: params[:upstream] %>
-						<%= (f.hidden_field :downstream, value: params[:downstream]) if params[:downstream] %>
-						<%= f.hidden_field :upstream_info, value: "From #{Round.find_by(jid: params[:upstream]).jid_info}" %>
-						<%= f.text_area :content, style: 'min-height: 300px; width: 100%' ,class: 'label_area', value: @github_code, style: "display:none;" %>
-						<%= f.submit "COMMIT & RUN", name: nil, class: "btn btn-default" %>
-						<% end if params[:upstream] %>
 						</div>
 					</div>
 				</div>
