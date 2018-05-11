@@ -6,12 +6,13 @@ class RoundsController < ApplicationController
   before_action :login_jenkins, only: [:index, :refresh]
 
   def index
+    unuseful_branch =['exp-testing', 'gi_siann0102']
     @experiments = @repos
     @rounds = Round.order(id: :desc)
     @experiments.each do |e|
       instance_variable_set(
         "@ci_data_#{e.gsub('-', '_')}",
-        Round.where(repo: e).order(id: :desc)
+        Round.where(repo: e).where.not(branch: unuseful_branch).order(id: :desc)
       )
     end
   end
