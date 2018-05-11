@@ -6,7 +6,6 @@ class RoundsController < ApplicationController
   before_action :login_jenkins, only: [:index, :refresh]
 
   def index
-    all_round_counts = 0
     @experiments = @repos
     @rounds = Round.order(id: :desc)
     @experiments.each do |e|
@@ -14,13 +13,6 @@ class RoundsController < ApplicationController
         "@ci_data_#{e.gsub('-', '_')}",
         Round.where(repo: e).order(id: :desc)
       )
-
-      all_round_counts += build_counts(e)
-    end
-
-    # siann1 37 miss deleted, so -1
-    if Round.count != (all_round_counts - 1)
-      JenkinsWorker.perform_async
     end
   end
 
