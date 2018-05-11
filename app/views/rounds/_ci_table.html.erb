@@ -1,19 +1,27 @@
 <table id="datatable-buttons" class="table table-striped table-bordered">
-  <col width=5%/>
+  <col style="width:5%;"/>
   <% if params[:tag] == 'all' %>
-  <col width=5%/>
-  <col width=15%/>
+  <col style="width:5%;"/>
+  <col style="width:15%;"/>
   <% else %>
-  <col width=20%/>
+  <col style="width:20%;"/>
   <% end %>
-  <col width=35%/>
-  <col width=10%/>
-  <col width=10%/>
+  <% if has_up(params[:repo]) == 'y' %>
+    <col style="width:10%;"/>
+    <col style="width:25%;"/>
+  <% else %>
+  <col style="width:35%;"/>
+  <% end %>
+  <col style="width:10%;"/>
+  <col style="width:10%;"/>
   <thead>
     <tr>
       <th>實驗</th>
       <% if params[:tag] == 'all' %>
         <th>分支</th>
+      <% end %>
+      <% if has_up(params[:repo]) == 'y' %>
+        <th>上游分支</th>
       <% end %>
       <th>說明</th>
       <th>註記 (shift + enter)</th>
@@ -27,6 +35,9 @@
         <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}" %></td>
         <% if params[:tag] == 'all' %>
           <td><%= r.branch %></td>
+        <% end %>
+        <% if has_up(params[:repo]) == 'y' %>
+          <td><%=  r.info.split(' - ')[1] %></td>
         <% end %>
         <td><%= r.info %></td>
         <td>

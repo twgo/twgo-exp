@@ -1,6 +1,6 @@
 class Round < ApplicationRecord
   has_many :down_streams
   def jid_info
-    "#{jid} - #{info} - #{label}"
+    "#{jid} - #{branch} - #{info} - #{label}"
   end
 end
