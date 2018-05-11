@@ -5,7 +5,7 @@ class GithubsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: '0.0').where.not(rate: '999.0') || Round.none
+    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: '0.0').where.not(rate: '999.0').order(id: :desc) || Round.none
     if params[:select_repo] = 'true'
       @downstreams = get_branches "twgo/gi2-gian5_boo5-hing5"
     end
@@ -13,13 +13,13 @@ class GithubsController < ApplicationController
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
 
     if params[:downstream]
-      @round_in_history = Round.where(id: DownStream.where(branch: params[:downstream].split('oooo')[0]).ids)
+      @round_in_history = Round.where(id: DownStream.where(branch: params[:downstream].split('oooo')[0]).pluck(:round_id)).order(id: :desc)
     end
   end
 
   def update
     Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
-    
+
     message = "EXP RUN: #{params[:github_code][:upstream_info]}"
     github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
     file = github_contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
