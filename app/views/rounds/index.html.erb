@@ -28,43 +28,9 @@
 	<div class="clearfix"></div>
 </div>
 <script>
-$('.label_area').keypress(function (ev) {
-	if (ev.which == 13 && ev.shiftKey) {
-		$(this).closest('form').submit();
-	}
-});
-</script>
-
-<% @experiments.each do |e| %>
-<% instance_variable_get("@ci_data_#{e.gsub('-', '_')}").pluck(:branch).uniq.each_with_index do |r, i| %>
-	<%= content_tag :div, id: "#{e}_#{i}_ci_key", data: {temp: @rounds.where(repo: e, branch: r).pluck(:expid)} do %>
-<% end %>
-<%= content_tag :div, id: "#{e}_#{i}_ci_value", data: {temp: @rounds.where(repo: e, branch: r).pluck(:rate).map(&:to_i)} do %>
-<% end %>
-
-<script>
-if ($('#<%= "#{e}_#{i}" %>_lineChart').length) {
-	var ctx = document.getElementById('<%= "#{e}_#{i}" %>_lineChart');
-	var lineChart = new Chart(ctx, {
-		type: 'line',
-		data: {
-			labels: $('#<%= "#{e}_#{i}" %>_ci_key').data('temp').reverse(),
-			datasets: [
-				{
-					label: '<%= "#{e}_#{r}" %>',
-					backgroundColor: "rgba(38, 185, 154, 0.31)",
-					borderColor: "rgba(38, 185, 154, 0.7)",
-					pointBorderColor: "rgba(38, 185, 154, 0.7)",
-					pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-					pointHoverBackgroundColor: "#fff",
-					pointHoverBorderColor: "rgba(220,220,220,1)",
-					pointBorderWidth: 1,
-					data: $('#<%= "#{e}_#{i}" %>_ci_value').data('temp').reverse()
-				}
-			]
+	$('.label_area').keypress(function (ev) {
+		if (ev.which == 13 && ev.shiftKey) {
+			$(this).closest('form').submit();
 		}
 	});
-}
 </script>
-<% end %>
-<% end %>
