@@ -1,4 +1,4 @@
-<table id="datatable-buttons-<%= "#{params[:repo]}-#{params[:branch]}" %>" class="table table-striped table-bordered">
+<table id="datatable-buttons-<%= "#{params[:repo]}-#{params[:branch].gsub('+', '_') if params[:branch]}" %>" class="table table-striped table-bordered">
   <col style="width:5%;"/>
   <% if params[:tag] == 'all' %>
   <col style="width:5%;"/>
@@ -66,4 +66,5 @@ function clip_cmd(e) {
   alert(x.value);
   x.remove();
 }
+$('#datatable-buttons-<%= "#{params[:repo]}-#{params[:branch].gsub('+', '_') if params[:branch]}" %>').dataTable();
 </script>
