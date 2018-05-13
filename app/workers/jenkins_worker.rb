@@ -49,7 +49,7 @@ class JenkinsWorker
     all_exp_detail=[]
     skip_exp=[]
     (1..all_build_counts).each do |x|
-      uri = URI.parse("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{x}/api/json")
+      uri = URI.parse("https://#{ENV['CI_DOMAIN']}/job/#{exp_name}/#{x}/api/json")
       get = Net::HTTP::Get.new(uri.path)
       get.basic_auth ENV['CI_ID'], ENV['CI_PWD']
       Net::HTTP.new(uri.host, uri.port).start {|http|
@@ -98,7 +98,7 @@ class JenkinsWorker
 
   def docker_id(exp_name, id, result)
     if result=='SUCCESS'
-      a = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/docker/", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read } .split
+      a = open("https://#{ENV['CI_DOMAIN']}/job/#{exp_name}/#{id}/docker/", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read } .split
       a[(a.index('Id:</b>')+1)]
     else
       'FAILURE'
@@ -113,7 +113,7 @@ class JenkinsWorker
     if status=='FAILURE'
       999
     elsif status=='SUCCESS'
-      result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
+      result = open("https://#{ENV['CI_DOMAIN']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
       tri4_no_si result
     else
       888
@@ -122,7 +122,7 @@ class JenkinsWorker
 
   def login_jenkins
     @jenkins = JenkinsApi::Client.new(
-      server_ip: ENV['CI_HOST'],
+      server_ip: ENV['CI_DOMAIN'],
       server_port: '80',
       username: ENV['CI_ID'],
       password: ENV['CI_PWD'])
