@@ -66,5 +66,9 @@ function clip_cmd(e) {
   alert(x.value);
   x.remove();
 }
-$('#datatable-buttons-<%= "#{params[:repo]}-#{params[:branch].gsub('+', '_') if params[:branch]}" %>').dataTable();
+$('#datatable-buttons-<%= "#{params[:repo]}-#{params[:branch].gsub('+', '_') if params[:branch]}" %>').dataTable(
+  {
+       "order": [[ 0, "desc" ]]
+  }
+);
 </script>
