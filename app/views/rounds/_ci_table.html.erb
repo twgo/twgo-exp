@@ -41,8 +41,8 @@
         <% end %>
         <td><%= r.info %></td>
         <td>
-          <%= form_for r, method: "patch" do |f| %>
-            <%= f.text_area :label, style: 'width: 100%', class: 'label_area', id: "round_label_#{r.id}"%>
+          <%= form_for r, id: "edit_round_#{r.id}_#{params[:tag]}", method: "patch" do |f| %>
+            <%= f.text_area :label, style: 'width: 100%', class: 'label_area', id: "round_label_#{r.id}_#{params[:tag]}"%>
           <% end %>
         </td>
         <td>
