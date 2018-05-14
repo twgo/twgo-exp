@@ -6,11 +6,7 @@ class RoundsController < ApplicationController
   before_action :login_jenkins, only: [:index, :refresh]
 
   def index
-    unuseful_branch =[
-      'exp-testing',
-      'gi_siann0102',
-      'print_info',
-    ]
+    unuseful_branch = Rails.configuration.my_hidden_branches
     @experiments = @repos
     @rounds = Round.order(id: :desc)
     @experiments.each do |e|
