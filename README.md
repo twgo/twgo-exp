@@ -9,9 +9,14 @@
 本專案整合 Jenkins CI 所執行之實驗結果
 [需求投影片](https://hackmd.io/p/Hk0eeAHHG#/)
 
+## 設定檔
+`config.my_hidden_branches` in `twgo-exp/config/application.rb`
+`siann1-hak8_boo5-hing5: '聲學模型訓練'` in `twgo-exp/config/locales/zh-TW.yml`
+
+
 # 已開發功能
 - 讀取 CI 成功之結果
-- 依結果修改原始碼
+  - 依結果修改原始碼
 - 顯示實驗圖表
 
 # 討論板
