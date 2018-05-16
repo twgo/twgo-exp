@@ -20,7 +20,7 @@ class RoundsController < ApplicationController
   def update
     round = Round.find(params[:id])
     round.update_attributes(round_params)
-    redirect_to rounds_path
+    redirect_to rounds_path, notice: "標籤已建立!"
   end
 
   def refresh
