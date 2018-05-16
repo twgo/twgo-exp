@@ -20,19 +20,23 @@ class GithubsController < ApplicationController
   def update
     Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
 
-    message = "EXP RUN: #{params[:github_code][:upstream_info]}"
-    github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
-    file = github_contents.get 'twgo', params[:github_code][:repo], 'Dockerfile', ref: params[:github_code][:branch]
-
-    github_contents.update('twgo', params[:github_code][:repo], 'Dockerfile',
-      path: 'Dockerfile',
-      branch: params[:github_code][:branch],
-      message: message,
-      content: params[:github_code][:content],
-      sha: file.sha,
-    )
+    create_exp_on_github params[:github_code][:upstream_info], params[:github_code][:repo], params[:github_code][:branch], params[:github_code][:content]
 
     redirect_to githubs_path(select_down: 'yes'), notice: "實驗已建立!"
+  end
+
+  def create_exp_on_github upstream_info, repo, branch, content
+    message = "EXP RUN: #{upstream_info}"
+    github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
+    file = github_contents.get 'twgo', repo, 'Dockerfile', ref: branch
+
+    github_contents.update('twgo', repo, 'Dockerfile',
+      path: 'Dockerfile',
+      branch: branch,
+      message: message,
+      content: content,
+      sha: file.sha,
+    )
   end
 
   private
