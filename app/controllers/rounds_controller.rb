@@ -28,6 +28,22 @@ class RoundsController < ApplicationController
     redirect_to rounds_path
   end
 
+  def answer
+    # ci docker to ci
+    %x(ssh -t ci@10.32.0.120 "docker run localhost:5000/#{params[:repo]}:#{params[:expid]} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt > exp/text.filt;exit")
+
+    # ci to exp
+    %x(ssh -t exp@10.32.0.124 "scp ci@10.32.0.120:exp/text.filt /home/exp/twgo-exp/public/results")
+    # %x(scp ci@10.32.0.120:exp/text.filt #{Rails.root}/public/results)
+
+    # download
+    send_file(
+      "#{Rails.root}/public/results/text.filt",
+      filename: "text.filt",
+      type: "text/plain"
+    )
+  end
+
   private
 
   def login_jenkins

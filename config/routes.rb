@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :rounds, only: [:update, :index] do
     collection do
       get 'refresh'
+      get 'answer'
     end
   end
 end
