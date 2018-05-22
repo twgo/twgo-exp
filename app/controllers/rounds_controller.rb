@@ -39,7 +39,24 @@ class RoundsController < ApplicationController
     # download
     send_file(
       "#{Rails.root}/public/results/text.filt",
-      filename: "text.filt",
+      filename: "#{params[:repo]}_#{params[:expid]}_text.filt",
+      type: "text/plain"
+    )
+  end
+
+  def best
+    kpath='/usr/local/kaldi/egs/taiwanese/s5c'
+    # ci docker to ci
+    # TODO
+
+    # ci to exp
+    # %x(ssh -t exp@10.32.0.124 "scp ci@10.32.0.120:exp/best.txt /home/exp/twgo-exp/public/results")
+    %x(scp ci@10.32.0.120:exp/best.txt #{Rails.root}/public/results)
+
+    # download
+    send_file(
+      "#{Rails.root}/public/results/best.txt",
+      filename: "#{params[:repo]}_#{params[:expid]}_best.txt",
       type: "text/plain"
     )
   end

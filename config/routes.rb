@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     collection do
       get 'refresh'
       get 'answer'
+      get 'best'
     end
   end
 end
