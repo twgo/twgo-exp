@@ -45,13 +45,10 @@ class RoundsController < ApplicationController
   end
 
   def best
-    kpath='/usr/local/kaldi/egs/taiwanese/s5c'
     # ci docker to ci
-    # TODO
-
+    best_result = %x(ssh -t ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{params[:repo]}:#{params[:expid]}")
     # ci to exp
-    # %x(ssh -t exp@10.32.0.124 "scp ci@10.32.0.120:exp/best.txt /home/exp/twgo-exp/public/results")
-    %x(scp ci@10.32.0.120:exp/best.txt #{Rails.root}/public/results)
+    %x(echo "#{best_result}" > #{Rails.root}/public/results/best.txt)
 
     # download
     send_file(
