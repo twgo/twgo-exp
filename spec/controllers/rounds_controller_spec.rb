@@ -27,6 +27,9 @@ RSpec.describe RoundsController, type: :controller do
   describe "download results" do
     let(:answer_file) { "#{Rails.root}/public/results/text.filt" }
     let(:best_file) { "#{Rails.root}/public/results/best.txt" }
+    before do
+      %x(mkdir -p #{Rails.root}/public/results)
+    end
     it 'download #answer' do
       answer_rounds_path(repo: 'siann1-hak8_boo5-hing5',expid: 1)
       %x(touch #{answer_file})
