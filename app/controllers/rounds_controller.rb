@@ -29,14 +29,8 @@ class RoundsController < ApplicationController
   end
 
   def answer
-    # ci docker to ci
-    %x(ssh -t ci@10.32.0.120 "docker run localhost:5000/#{params[:repo]}:#{params[:expid]} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt > exp/text.filt;exit")
-
-    # ci to exp
-    %x(ssh -t exp@10.32.0.124 "scp ci@10.32.0.120:exp/text.filt /home/exp/twgo-exp/public/results")
-    # %x(scp ci@10.32.0.120:exp/text.filt #{Rails.root}/public/results)
-
-    # download
+    ci_answer params[:repo], params[:expid]
+    
     send_file(
       "#{Rails.root}/public/results/text.filt",
       filename: "#{params[:repo]}_#{params[:expid]}_text.filt",
@@ -45,12 +39,8 @@ class RoundsController < ApplicationController
   end
 
   def best
-    # ci docker to ci
-    best_result = %x(ssh -t ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{params[:repo]}:#{params[:expid]}")
-    # ci to exp
-    %x(echo "#{best_result}" > #{Rails.root}/public/results/best.txt)
+    ci_best params[:repo], params[:expid]
 
-    # download
     send_file(
       "#{Rails.root}/public/results/best.txt",
       filename: "#{params[:repo]}_#{params[:expid]}_best.txt",
@@ -59,6 +49,16 @@ class RoundsController < ApplicationController
   end
 
   private
+
+  def ci_answer repo, expid
+    %x(ssh -t ci@10.32.0.120 "docker run localhost:5000/#{repo}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt > exp/text.filt;exit")
+    %x(ssh -t exp@10.32.0.124 "scp ci@10.32.0.120:exp/text.filt #{Rails.root}/public/results")
+  end
+
+  def ci_best repo, expid
+    best_result = %x(ssh -t ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{params[:repo]}:#{params[:expid]}")
+    %x(echo "#{best_result}" > #{Rails.root}/public/results/best.txt)
+  end
 
   def login_jenkins
     @jenkins = JenkinsApi::Client.new(
