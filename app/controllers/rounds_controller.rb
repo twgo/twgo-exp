@@ -48,6 +48,14 @@ class RoundsController < ApplicationController
     )
   end
 
+  def audio
+    send_file(
+      "#{Rails.root}/public/results/TW01M_TEST.gz",
+      filename: "TW01M_TEST.gz",
+      type: "text/plain"
+    )
+  end
+
   private
 
   def ci_answer repo, expid

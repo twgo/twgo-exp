@@ -27,6 +27,7 @@ RSpec.describe RoundsController, type: :controller do
   describe "download results" do
     let(:answer_file) { "#{Rails.root}/public/results/text.filt" }
     let(:best_file) { "#{Rails.root}/public/results/best.txt" }
+    let(:audio_file) { "#{Rails.root}/public/results/audio.gz" }
     before do
       %x(mkdir -p #{Rails.root}/public/results)
     end
@@ -39,6 +40,11 @@ RSpec.describe RoundsController, type: :controller do
       best_rounds_path(repo: 'siann1-hak8_boo5-hing5',expid: 1)
       %x(touch #{best_file})
       expect(File).to exist best_file
+    end
+    it 'download #best results' do
+      audio_rounds_path
+      %x(touch #{audio_file})
+      expect(File).to exist audio_file
     end
   end
 end

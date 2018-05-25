@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get 'refresh'
       get 'answer'
       get 'best'
+      get 'audio'
     end
   end
 end
