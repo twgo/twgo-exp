@@ -60,12 +60,12 @@ class RoundsController < ApplicationController
 
   def ci_answer repo, expid
     ci_answer = %x(ssh -t ci@10.32.0.120 "docker run localhost:5000/#{repo}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat")
-    %x(echo "#{ci_answer}" > #{Rails.root}/public/results/text.filt)
+    %x(echo "#{ci_answer}" > ./public/results/text.filt)
   end
 
   def ci_best repo, expid
     best_result = %x(ssh -t ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{repo}:#{expid}")
-    %x(echo "#{best_result}" > #{Rails.root}/public/results/best.txt)
+    %x(echo "#{best_result}" > ./public/results/best.txt)
   end
 
   def login_jenkins
