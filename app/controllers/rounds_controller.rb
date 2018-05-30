@@ -28,7 +28,45 @@ class RoundsController < ApplicationController
     redirect_to rounds_path
   end
 
+  def answer
+    ci_answer params[:repo], params[:expid]
+
+    send_file(
+      "#{Rails.root}/public/results/text.filt",
+      filename: "#{params[:repo]}_#{params[:expid]}_text.filt",
+      type: "text/plain"
+    )
+  end
+
+  def best
+    ci_best params[:repo], params[:expid]
+
+    send_file(
+      "#{Rails.root}/public/results/best.txt",
+      filename: "#{params[:repo]}_#{params[:expid]}_best.txt",
+      type: "text/plain"
+    )
+  end
+
+  def audio
+    send_file(
+      "#{Rails.root}/public/results/TW01M_TEST.gz",
+      filename: "TW01M_TEST.gz",
+      type: "text/plain"
+    )
+  end
+
   private
+
+  def ci_answer repo, expid
+    ci_answer = %x(ssh -t ci@10.32.0.120 "docker run localhost:5000/#{repo}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat")
+    %x(echo "#{ci_answer}" > #{Rails.root}/public/results/text.filt)
+  end
+
+  def ci_best repo, expid
+    best_result = %x(ssh -t ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{repo}:#{expid}")
+    %x(echo "#{best_result}" > #{Rails.root}/public/results/best.txt)
+  end
 
   def login_jenkins
     @jenkins = JenkinsApi::Client.new(
