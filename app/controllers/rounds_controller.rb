@@ -59,12 +59,12 @@ class RoundsController < ApplicationController
   private
 
   def ci_answer repo, expid
-    ci_answer = %x(ssh -t ci@10.32.0.120 "docker run localhost:5000/#{repo}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat")
+    ci_answer = %x(ssh -tt ci@10.32.0.120 "docker run localhost:5000/#{repo}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat")
     %x(echo "#{ci_answer}" > ./public/results/text.filt)
   end
 
   def ci_best repo, expid
-    best_result = %x(ssh -t ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{repo}:#{expid}")
+    best_result = %x(ssh -tt ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i localhost:5000/#{repo}:#{expid}")
     %x(echo "#{best_result}" > ./public/results/best.txt)
   end
 
