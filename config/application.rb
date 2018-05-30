@@ -14,7 +14,12 @@ module TwgoExp
     config.my_hidden_branches = [
       'exp-testing',
       'gi_siann0102',
+      'siann0102',
+      'master',
       'print_info',
+      '語言模型',
+      '整理apt-get',
+      'twisasa+tw01+tw02--ricer-baseline',
     ]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
