@@ -6,6 +6,7 @@ services:
     volumes:
       - .:/app
       - ~/.ssh:/root/.ssh
+      - /etc/ssh:/etc/ssh
     ports:
       - "3000:3000"
     links:
