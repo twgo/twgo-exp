@@ -20,6 +20,8 @@ module TwgoExp
       '語言模型',
       '整理apt-get',
       'twisasa+tw01+tw02--ricer-baseline',
+      'Jenkins_free-syllable-tw01test-仝語者_20180531104919',
+      'Jenkins_free-syllable-tw01test-仝語者_20180531105622',
     ]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
