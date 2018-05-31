@@ -32,10 +32,10 @@ RSpec.describe GithubsController, type: :controller do
     end
   end
 
-  describe "GET #update" do
-    it "update github code with upstream, and redirect to rounds_path" do
-      patch :update, params: @params_github
-      expect(response).to redirect_to(githubs_path(select_down: 'yes'))
-    end
-  end
+  # describe "GET #update" do
+  #   it "update github code with upstream, and redirect to rounds_path" do
+  #     patch :update, params: @params_github
+  #     expect(response).to redirect_to(githubs_path(select_down: 'yes'))
+  #   end
+  # end
 end
