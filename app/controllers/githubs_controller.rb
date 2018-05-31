@@ -20,23 +20,30 @@ class GithubsController < ApplicationController
   def update
     Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
 
-    create_exp_on_github params[:github_code][:upstream_info], params[:github_code][:repo], params[:github_code][:branch], params[:github_code][:content]
+    create_exp_on_github params[:github_code][:upstream_info], params[:github_code][:repo], params[:github_code][:branch], params[:github_code][:content], params[:github_code][:sha]
 
     redirect_to githubs_path(select_down: 'yes'), notice: "實驗已建立!"
   end
 
-  def create_exp_on_github upstream_info, repo, branch, content
+  def create_exp_on_github upstream_info, repo, branch, content, sha
+    temp_branch = "_#{branch}"
+    create_branch(repo, temp_branch, sha)
+
     message = "EXP RUN: #{upstream_info}"
     github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
     file = github_contents.get 'twgo', repo, 'Dockerfile', ref: branch
 
     github_contents.update('twgo', repo, 'Dockerfile',
       path: 'Dockerfile',
-      branch: branch,
+      branch: temp_branch,
       message: message,
       content: content,
       sha: file.sha,
     )
+
+    sleep 2
+    
+    delete_branch(repo, temp_branch)
   end
 
   private
@@ -52,5 +59,15 @@ class GithubsController < ApplicationController
       down_name: x[:name],
       down_sha: x[:commit][:sha],
       }}
+  end
+
+  def create_branch repo, temp_branch, sha
+    github_client = Octokit::Client.new(login: ENV['GITHUB_ID'] , password: ENV['GITHUB_SECRET'])
+    github_client.create_ref "twgo/#{repo}", "heads/#{temp_branch}", sha
+  end
+
+  def delete_branch repo, temp_branch
+    github_client = Octokit::Client.new(login: ENV['GITHUB_ID'] , password: ENV['GITHUB_SECRET'])
+    github_client.delete_ref "twgo/#{repo}", "heads/#{temp_branch}"
   end
 end

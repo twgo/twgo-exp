@@ -35,6 +35,7 @@
 										<%= form_for 'github_code', method: "patch" do |f| %>
 											<%= f.hidden_field :repo, value: params[:repo] %>
 											<%= f.hidden_field :branch, value: params[:branch] %>
+											<%= f.hidden_field :sha, value: params[:sha] %>
 											<%= f.hidden_field :upstream, value: params[:upstream] %>
 											<%= (f.hidden_field :downstream, value: params[:downstream]) if params[:downstream] %>
 											<%= f.hidden_field :upstream_info, value: "From #{Round.find_by(jid: params[:upstream]).jid_info}" %>
