@@ -10,11 +10,11 @@
 		<% end %>
 	</ul>
 	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane fade" id="<%= params[:ci_name] %>">
+		<div role="tabpanel" class="tab-pane fade active in" id="<%= params[:ci_name] %>">
 			<%= render 'ci_table', params: {ci_data: params[:ci_data], tag: 'all', repo: params[:ci_name]} %>
 		</div>
 		<% params[:ci_group].uniq.each_with_index do |r,i| %>
-			<div role="tabpanel" class="<%= i==0 ? 'tab-pane fade active in' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
+			<div role="tabpanel" class="<%= i==0 ? 'tab-pane fade' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
 				<%= render 'ci_table', params: {ci_data: params[:ci_data].where(branch: r), repo: params[:ci_name], branch: "#{r}"} %>
 			</div>
 		<% end %>
