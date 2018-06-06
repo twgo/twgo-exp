@@ -78,7 +78,8 @@ class JenkinsWorker
     success_exp=[]
     (0..success_exp_detail.count-1).each do |x|
       success_exp_detail_number = success_exp_detail[x]['number']
-      commit_hash = success_exp_detail[x]['actions'].find {|h| h.has_key? 'lastBuiltRevision' }['lastBuiltRevision']['branch']
+      to_commit_hash = success_exp_detail[x]['actions'].find {|h| h.has_key? 'lastBuiltRevision' }
+      commit_hash = to_commit_hash ? to_commit_hash['lastBuiltRevision']['branch'] : ''
       result = success_exp_detail[x]['result']
       success_exp << {
         jid: "#{exp_name}/#{success_exp_detail_number}",
