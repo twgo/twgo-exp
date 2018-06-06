@@ -12,7 +12,7 @@ class RoundsController < ApplicationController
     @experiments.each do |e|
       instance_variable_set(
         "@ci_data_#{e.gsub('-', '_')}",
-        Round.where(repo: e).where.not(branch: unuseful_branch).order(id: :desc)
+        Round.where(repo: e).where.not(branch: unuseful_branch, jid: 'gi2-gian5_boo5-hing5/60').order(id: :desc)
       )
     end
   end
