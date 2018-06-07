@@ -5,7 +5,7 @@ class GithubsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: '0.0').where.not(rate: '999.0').order(id: :desc) || Round.none
+    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: [0, 888, 999]).order(id: :desc) || Round.none
     if params[:select_repo] = 'true'
       origin_downstreams = get_branches "twgo/gi2-gian5_boo5-hing5"
       hidden_branches = Rails.configuration.my_hidden_branches
@@ -44,7 +44,7 @@ class GithubsController < ApplicationController
     )
 
     sleep 2
-    
+
     delete_branch(repo, temp_branch)
   end
 
