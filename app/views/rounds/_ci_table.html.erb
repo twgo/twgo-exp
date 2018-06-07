@@ -32,7 +32,7 @@
   <tbody>
     <% params[:ci_data].each do |r| %>
       <tr>
-        <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}" %></td>
+        <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}", title: 'jenkins ci', target: '_blank' %></td>
         <% if params[:tag] == 'all' %>
           <td><%= r.branch %></td>
         <% end %>
