@@ -56,3 +56,11 @@
 		</div>
 	</div>
 </div>
+<script>
+	$('.label_area').keypress(function (ev) {
+		if (ev.which == 13 && ev.shiftKey) {
+			$(this).closest('form').submit();
+			alert("標籤已儲存");
+		}
+	});
+</script>
