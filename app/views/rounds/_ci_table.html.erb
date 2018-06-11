@@ -27,6 +27,9 @@
       <th>註記 (shift + enter)</th>
       <th>操作</th>
       <th>錯誤率(%)</th>
+      <% if params[:source] == 'github' %>
+        <th>接實驗錯誤率(%)</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -54,6 +57,9 @@
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/blob/#{r.sha1}/Dockerfile", title: 'code', target: '_blank' %>
         </td>
         <td><%= show_rate_status r.rate %></td>
+        <% if params[:source] == 'github' %>
+          <td><%= Round.where("info like ?", "%#{r.jid}%").order('id DESC').map{|x| x.rate}.join(", ") %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
