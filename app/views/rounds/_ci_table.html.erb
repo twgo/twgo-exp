@@ -58,7 +58,7 @@
         </td>
         <td><%= show_rate_status r.rate %></td>
         <% if params[:source] == 'github' %>
-          <td><%= Round.where("info like ?", "%#{r.jid}%").order('id DESC').map{|x| x.rate if ([0, 888, 999].exclude? x.rate)}.join("") %></td>
+          <td><%= Round.where("info like ?", "%#{r.jid}%").order('id DESC').map{|x| x.rate if ([0, 888, 999].exclude? x.rate)}.join(" ") %></td>
         <% end %>
       </tr>
     <% end %>
