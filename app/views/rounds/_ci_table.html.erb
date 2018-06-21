@@ -18,6 +18,7 @@
   <thead>
     <tr>
       <th>實驗</th>
+      <th>日期</th>
       <% if params[:tag] == 'all' %>
         <th>分支</th>
       <% end %>
@@ -27,7 +28,6 @@
       <th>說明</th>
       <th>註記 (shift + enter)</th>
       <th>操作</th>
-      <th>日期</th>
       <th>Inside Test 錯誤率(%)</th>
       <% if params[:source] == 'github' %>
         <th>測試錯誤率(%)</th>
@@ -38,6 +38,7 @@
     <% params[:ci_data].each do |r| %>
       <tr>
         <td><%= link_to "#{r.expid}", "https://jenkins.iis.sinica.edu.tw/job/#{r.jid}", title: 'jenkins ci', target: '_blank' %></td>
+        <td><%= r.updated_at.localtime.to_formatted_s(:db) %></td>
         <% if params[:tag] == 'all' %>
           <td><%= r.branch %></td>
         <% end %>
@@ -58,7 +59,6 @@
           <% end %>
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/blob/#{r.sha1}/Dockerfile", title: 'code', target: '_blank' %>
         </td>
-        <td><%= r.updated_at.localtime.to_formatted_s(:db) %></td>
         <td><%= show_rate_status r.rate %></td>
         <% if params[:source] == 'github' %>
           <td><%= Round.where("info like ?", "%#{r.jid}%").order('id DESC').map{|x| x.rate if ([0, 888, 999].exclude? x.rate)}.last %></td>
