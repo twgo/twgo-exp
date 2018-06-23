@@ -10,6 +10,7 @@ module TwgoExp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+    config.time_zone = 'Asia/Taipei'
     config.i18n.default_locale = "zh-TW"
     config.my_hidden_branches = [
       'exp-testing',
