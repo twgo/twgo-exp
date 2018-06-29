@@ -26,7 +26,7 @@ class JenkinsWorker
           repo: r[:repo],
           expid: r[:expid],
           sha1: r[:sha1],
-          branch: r[:branch],
+          branch: (r[:branch].start_with?('_') ? r[:branch][1..-1] : r[:branch])
           }
         }
         new_round.each{|n| Round.find_or_initialize_by(jid: n[:jid]).update!(n)}
