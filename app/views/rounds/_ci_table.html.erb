@@ -14,8 +14,9 @@
   <col style="width:35%;"/>
   <% end %>
   <col style="width:7%;"/>
-  <col style="width:7%;"/>
-  <col style="width:6%;"/>
+  <col style="width:4%;"/>
+  <col style="width:4%;"/>
+  <col style="width:5%;"/>
   <thead>
     <tr>
       <th>實驗</th>
@@ -30,6 +31,7 @@
       <th>註記 (shift + enter)</th>
       <th>操作</th>
       <th>Inside Test 錯誤率(%)</th>
+      <th>Inside Test 錯誤率(si)(%)</th>
       <% if params[:source] == 'github' %>
         <th>測試錯誤率(%)</th>
       <% end %>
@@ -61,6 +63,7 @@
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/blob/#{r.sha1}/Dockerfile", title: 'code', target: '_blank' %>
         </td>
         <td><%= show_rate_status r.rate %></td>
+        <td><%= show_rate_status r.rate2 %></td>
         <% if params[:source] == 'github' %>
           <td><%= Round.where("info like ?", "%#{r.jid}%").order('id DESC').map{|x| x.rate if ([0, 888, 999].exclude? x.rate)}.last %></td>
         <% end %>

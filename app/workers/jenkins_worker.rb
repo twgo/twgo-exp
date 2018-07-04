@@ -87,7 +87,8 @@ class JenkinsWorker
           cid: commit_hash,
           info: commit_message(exp_name, commit_hash),
           did: docker_id(exp_name, success_exp_detail_number, result),
-          rate: exp_rate(exp_name, success_exp_detail_number, result),
+          rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate'),
+          rate2: exp_rate(exp_name, success_exp_detail_number, result, 'rate2'),
           repo: exp_name,
           expid: success_exp_detail_number,
           sha1: commit_hash[0]['SHA1'],
@@ -112,12 +113,12 @@ class JenkinsWorker
     @github_client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1']).commit.message
   end
 
-  def exp_rate(exp_name, id, status)
+  def exp_rate(exp_name, id, status, rate_type)
     if status=='FAILURE'
       999
     elsif status=='SUCCESS'
       result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
-      tri4_no_si result
+      (rate_type=='rate') ? (tri_no_si result) : (tri_si result)
     else
       888
     end
@@ -133,7 +134,11 @@ class JenkinsWorker
     @repos = @jenkins.job.list_all
   end
 
-  def tri4_no_si result
+  def tri_no_si result
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-2] || 0
+  end
+  
+  def tri_si result
+    result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-1] || 0
   end
 end
