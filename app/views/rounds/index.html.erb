@@ -28,10 +28,12 @@
 	<div class="clearfix"></div>
 </div>
 <script>
+$(document).on("keypress", function (e) {
 	$('.label_area').keypress(function (ev) {
 		if (ev.which == 13 && ev.shiftKey) {
 			$(this).closest('form').submit();
 			alert("標籤已儲存");
 		}
 	});
+});
 </script>
