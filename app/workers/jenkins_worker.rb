@@ -23,6 +23,7 @@ class JenkinsWorker
           did: r[:did],
           info: r[:info],
           rate: r[:rate],
+          rate2: r[:rate2],
           repo: r[:repo],
           expid: r[:expid],
           sha1: r[:sha1],
@@ -137,7 +138,7 @@ class JenkinsWorker
   def tri_no_si result
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-2] || 0
   end
-  
+
   def tri_si result
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-1] || 0
   end
