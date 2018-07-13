@@ -12,7 +12,7 @@ class GithubsController < ApplicationController
       @downstreams = origin_downstreams.select{ |b| (hidden_branches.exclude? b[:down_name]) }
     end
     origin_code = get_dockerfile(params[:repo], params[:sha])
-    @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM localhost:5000/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
+    @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM dockerhub.iis.sinica.edu.tw/siann1-hak8_boo5-hing5:#{params[:upstream].split('/')[-1]}").join("\n")
 
     if params[:downstream]
       @round_in_history = Round.where(id: DownStream.where(branch: params[:downstream].split('oooo')[0]).pluck(:round_id)).order(id: :desc)
