@@ -2,6 +2,7 @@ version: '3'
 services:
   web:
     build: .
+    restart: always
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/app
@@ -12,6 +13,7 @@ services:
     links:
       - redis
   sidekiq:
+    restart: always
     volumes:
       - .:/app
     depends_on:
@@ -21,6 +23,7 @@ services:
     links:
       - redis
   redis:
+    restart: always
     image: redis
     ports:
       - 6379:6379
