@@ -72,7 +72,7 @@ class RoundsController < ApplicationController
       username: ENV['CI_ID'],
       password: ENV['CI_PWD'])
 
-    @repos = @jenkins.job.list_all
+    @repos = @jenkins.job.list_all - ['zh-min-nan']
   end
 
   def build_counts(exp_name)
