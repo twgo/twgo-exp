@@ -22,18 +22,22 @@
       <th>實驗</th>
       <th>日期</th>
       <% if params[:tag] == 'all' %>
-        <th>分支</th>
+        <% if params[:repo] == 'siann1-hak8_boo5-hing5' %>
+          <th>訓練設定</th>
+        <% elsif params[:repo] == 'gi2-gian5_boo5-hing5' %>
+          <th>測試設定</th>
+        <% end %>
       <% end %>
       <% if has_up(params[:repo]) == 'y' %>
-        <th>上游分支</th>
+        <th>訓練設定</th>
       <% end %>
       <th>說明</th>
       <th>註記 (shift + enter)</th>
       <th>操作</th>
-      <th>Inside Test 錯誤率(%)</th>
-      <th>Inside Test 錯誤率(si)(%)</th>
+      <th>Test Result(%)</th>
+      <!-- <th>Inside Test 錯誤率(si)(%)</th> -->
       <% if params[:source] == 'github' %>
-        <th>測試錯誤率(%)</th>
+        <th>Test Result(%)</th>
       <% end %>
     </tr>
   </thead>
@@ -63,7 +67,7 @@
           <%= link_to "🎁", "https://github.com/twgo/#{r.repo}/blob/#{r.sha1}/Dockerfile", title: 'code', target: '_blank' %>
         </td>
         <td><%= show_rate_status r.rate %></td>
-        <td><%= show_rate_status r.rate2 %></td>
+        <!-- <td><%# show_rate_status r.rate2 %></td> -->
         <% if params[:source] == 'github' %>
           <td><%= Round.where("info like ?", "%#{r.jid}%").order('id DESC').map{|x| x.rate if ([0, 888, 999].exclude? x.rate)}.last %></td>
         <% end %>
