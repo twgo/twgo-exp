@@ -116,7 +116,7 @@ GEM
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     fastclick-rails (1.0.1)
-    ffi (1.9.23)
+    ffi (1.9.25)
     flot-rails (0.0.7)
       jquery-rails
     font-awesome-sass (4.7.0)
