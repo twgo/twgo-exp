@@ -16,4 +16,7 @@ Rails.application.routes.draw do
       get 'audio'
     end
   end
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/s'
 end
