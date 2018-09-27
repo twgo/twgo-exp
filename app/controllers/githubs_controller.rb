@@ -43,7 +43,7 @@ class GithubsController < ApplicationController
       sha: file.sha,
     )
 
-    sleep 2
+    sleep 8
 
     delete_branch(repo, temp_branch)
   end

@@ -43,7 +43,7 @@ class GgithubsController < ApplicationController
       sha: file.sha,
     )
 
-    sleep 5
+    sleep 8
 
     delete_branch(repo, temp_branch)
   end
