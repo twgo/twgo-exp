@@ -80,21 +80,24 @@ class JenkinsWorker
     (0..success_exp_detail.count-1).each do |x|
       success_exp_detail_number = success_exp_detail[x]['number']
       to_commit_hash = success_exp_detail[x]['actions'].find {|h| h.has_key? 'lastBuiltRevision' }
-      if to_commit_hash && (commit_hash[0]['name'].split('/').last  != 'master')
+      if to_commit_hash
         commit_hash = to_commit_hash['lastBuiltRevision']['branch']
-        result = success_exp_detail[x]['result']
-        success_exp << {
-          jid: "#{exp_name}/#{success_exp_detail_number}",
-          cid: commit_hash,
-          info: commit_message(exp_name, commit_hash),
-          did: docker_id(exp_name, success_exp_detail_number, result),
-          rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate'),
-          rate2: exp_rate(exp_name, success_exp_detail_number, result, 'rate2'),
-          repo: exp_name,
-          expid: success_exp_detail_number,
-          sha1: commit_hash[0]['SHA1'],
-          branch: commit_hash[0]['name'].split('/').last,
-        }
+        branch = commit_hash[0]['name'].split('/').last
+        if branch != 'master'
+          result = success_exp_detail[x]['result']
+          success_exp << {
+            jid: "#{exp_name}/#{success_exp_detail_number}",
+            cid: commit_hash,
+            info: commit_message(exp_name, commit_hash),
+            did: docker_id(exp_name, success_exp_detail_number, result),
+            rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate'),
+            rate2: exp_rate(exp_name, success_exp_detail_number, result, 'rate2'),
+            repo: exp_name,
+            expid: success_exp_detail_number,
+            sha1: commit_hash[0]['SHA1'],
+            branch: branch,
+          }
+        end
       end
     end
 
