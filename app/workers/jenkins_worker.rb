@@ -115,7 +115,7 @@ class JenkinsWorker
 
   def commit_message(exp_name, commit_hash)
     sha = commit_hash[0]['SHA1']
-    if sha !='2e2d1ab5c04cf542f94035ceadc68787878bba0d'
+    if (sha !='2e2d1ab5c04cf542f94035ceadc68787878bba0d') || (sha !='b5698cf3056475a40797e98381c39389b584035d')
       @github_client.commit("twgo/#{exp_name}", sha)
     else
       ''
