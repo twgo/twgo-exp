@@ -5,7 +5,7 @@ class GgithubsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @upstream = Round.where(repo: 'DNN-train').where.not(rate: [0, 888, 999]).order(id: :desc) || Round.none
+    @upstream = Round.where(repo: 'DNN-train').where.not(rate: [888, 999]).order(id: :desc) || Round.none
     if params[:select_repo] = 'true'
       origin_downstreams = get_branches "twgo/DNN-test"
       hidden_branches = Rails.configuration.my_hidden_branches
