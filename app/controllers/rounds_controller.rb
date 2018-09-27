@@ -24,7 +24,7 @@ class RoundsController < ApplicationController
 
   def refresh
     JenkinsWorker.perform_async
-    redirect_to rounds_path
+    redirect_to rounds_path, notice: "實驗刷新中，請稍待一陣子!"
   end
 
   def answer
