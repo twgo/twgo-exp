@@ -111,7 +111,8 @@ class JenkinsWorker
   end
 
   def commit_message(exp_name, commit_hash)
-    @github_client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1']).commit.message
+    the_commit = @github_client.commit("twgo/#{exp_name}", commit_hash[0]['SHA1'])
+    the_commit.commit.message if the_commit
   end
 
   def exp_rate(exp_name, id, status, rate_type)
