@@ -58,11 +58,11 @@ class RoundsController < ApplicationController
   private
 
   def ci_answer repo, expid
-    %x(echo `ssh -tt ci@10.32.0.120 "docker run dockerhub.iis.sinica.edu.tw/#{repo}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat"` > ./public/results/text.filt)
+    %x(echo `ssh -tt ci@10.32.0.120 "docker run dockerhub.iis.sinica.edu.tw/#{repo.downcase}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat"` > ./public/results/text.filt)
   end
 
   def ci_best repo, expid
-    %x(echo `ssh -tt ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i dockerhub.iis.sinica.edu.tw/#{repo}:#{expid}"` > ./public/results/best.txt)
+    %x(echo `ssh -tt ci@10.32.0.120 "curl -s 'https://raw.githubusercontent.com/leo424y/f/master/twgo_best.sh' | docker run -i dockerhub.iis.sinica.edu.tw/#{repo.downcase}:#{expid}"` > ./public/results/best.txt)
   end
 
   def login_jenkins
