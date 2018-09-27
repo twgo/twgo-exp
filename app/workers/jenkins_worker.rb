@@ -80,7 +80,8 @@ class JenkinsWorker
     (0..success_exp_detail.count-1).each do |x|
       success_exp_detail_number = success_exp_detail[x]['number']
       to_commit_hash = success_exp_detail[x]['actions'].find {|h| h.has_key? 'lastBuiltRevision' }
-      if to_commit_hash
+      branch = commit_hash[0]['name'].split('/').last
+      if to_commit_hash && (branch != 'master')
         commit_hash = to_commit_hash['lastBuiltRevision']['branch']
         result = success_exp_detail[x]['result']
         success_exp << {
@@ -93,7 +94,7 @@ class JenkinsWorker
           repo: exp_name,
           expid: success_exp_detail_number,
           sha1: commit_hash[0]['SHA1'],
-          branch: commit_hash[0]['name'].split('/').last,
+          branch: branch,
         }
       end
     end
