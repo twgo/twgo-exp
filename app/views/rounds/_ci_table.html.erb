@@ -49,7 +49,7 @@
           <td><%= r.branch %></td>
         <% end %>
         <% if has_up(params[:repo]) == 'y' %>
-          <td><%=  r.info.split(' - ')[1] %></td>
+          <td><%= r.info ? r.info.split(' - ')[1] : '' %></td>
         <% end %>
         <td><%= r.info %></td>
         <td>
