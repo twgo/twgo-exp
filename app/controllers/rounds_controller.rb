@@ -3,7 +3,7 @@ require 'open-uri'
 
 class RoundsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :login_jenkins, only: [:index, :refresh]
+  before_action :login_jenkins, only: [:index, :refresh, :run_next]
 
   def index
     unuseful_branch = Rails.configuration.my_hidden_branches
