@@ -22,7 +22,7 @@ class RoundsController < ApplicationController
       # 檢查每個repo有沒有閒置未做的實驗，執行
       rounds = Round.where(repo: r)
       no_running = (rounds.where.not(status: 'running') && rounds.where(status: 'added'))
-      all_done = rounds.find_by(status: 'running').rate != nil
+      all_done = (rounds.find_by(status: 'running') != nil) && (rounds.find_by(status: 'running').rate != nil)
 
       if all_done
         rounds.update_all(status: 'finished')
