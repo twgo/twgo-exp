@@ -20,9 +20,18 @@ class GithubsController < ApplicationController
   end
 
   def update
-    Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
+    # Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
 
-    create_exp_on_github params[:github_code][:upstream_info], params[:github_code][:repo], params[:github_code][:branch], params[:github_code][:content], params[:github_code][:sha]
+    # create_exp_on_github params[:github_code][:upstream_info], params[:github_code][:repo], params[:github_code][:branch], params[:github_code][:content], params[:github_code][:sha]
+
+    Exp.create(
+      upstream: params[:github_code][:upstream],
+      repo: params[:github_code][:repo],
+      branch: params[:github_code][:branch],
+      content: params[:github_code][:content],
+      sha: params[:github_code][:sha],
+      status: 'added'
+    )
 
     redirect_to githubs_path(select_down: 'yes'), notice: "實驗已建立!"
   end

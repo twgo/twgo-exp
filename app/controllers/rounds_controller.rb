@@ -18,7 +18,19 @@ class RoundsController < ApplicationController
   end
 
   def run_next
-    # 檢查每個repo有沒有閒置未做的實驗，執行
+    @repos.eacho do |r|
+      # 檢查每個repo有沒有閒置未做的實驗，執行
+      rounds = Round.where(repo: r)
+      no_running = (rounds.where.not(status: 'running') && rounds.where(status: 'added'))
+      all_done = rounds.find_by(status: 'running').rate != nil
+
+      if all_done
+        rounds.update_all(status: 'finished')
+        ExpsWorker.perform_async(r)
+      elsif no_running
+        ExpsWorker.perform_async(r)
+      end
+    end
   end
 
   def update
