@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get 'answer'
       get 'best'
       get 'audio'
+      get 'run_next'
     end
   end
 

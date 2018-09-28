@@ -17,6 +17,10 @@ class RoundsController < ApplicationController
     end
   end
 
+  def run_next
+    # 檢查每個repo有沒有閒置未做的實驗，執行
+  end
+
   def update
     round = Round.find(params[:id])
     round.update_attributes(round_params)
