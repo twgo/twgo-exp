@@ -3,7 +3,7 @@ require 'open-uri'
 
 class RoundsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :login_jenkins, only: [:index, :refresh, :run_next]
+  before_action :login_jenkins, only: [:index, :refresh]
 
   def index
     unuseful_branch = Rails.configuration.my_hidden_branches
@@ -18,18 +18,8 @@ class RoundsController < ApplicationController
   end
 
   def run_next
-    @repos.each do |r|
-      # 檢查每個repo有沒有閒置未做的實驗，執行
-      rounds = Round.where(repo: r)
-      no_running = (rounds.where.not(status: 'running') && rounds.where(status: 'added'))
-      all_done = (rounds.find_by(status: 'running') != nil) && (rounds.find_by(status: 'running').rate != nil)
-
-      if all_done
-        rounds.update_all(status: 'finished')
-        ExpsWorker.perform_async(r)
-      elsif no_running
-        ExpsWorker.perform_async(r)
-      end
+    ['DNN-test','gi2-gian5_boo5-hing5'].each do |r|
+      ExpsWorker.perform_async(r) if ci_not_running(r)
     end
   end
 
@@ -72,6 +62,33 @@ class RoundsController < ApplicationController
   end
 
   private
+
+  def ci_not_running repo
+      a=''
+      uri = URI.parse("http://#{ENV['CI_HOST']}/job/#{repo}/api/json")
+      get = Net::HTTP::Get.new(uri.path)
+      get.basic_auth(ENV['CI_ID'], ENV['CI_PWD'])
+      Net::HTTP.new(uri.host, uri.port).start {|http|
+        http.request(get) {|response|
+          if response.code == "200"
+        		a=JSON.load(open(uri, http_basic_authentication:[ENV['CI_ID'], ENV['CI_PWD']]))
+          end
+        }
+      }
+      number = a['builds'][0]['number']
+
+      uri = URI.parse("http://#{ENV['CI_HOST']}/job/#{repo}/#{number}/api/json")
+      get = Net::HTTP::Get.new(uri.path)
+      get.basic_auth(ENV['CI_ID'], ENV['CI_PWD'])
+      Net::HTTP.new(uri.host, uri.port).start {|http|
+        http.request(get) {|response|
+          if response.code == "200"
+            a=JSON.load(open(uri, http_basic_authentication:[ENV['CI_ID'], ENV['CI_PWD']]))
+          end
+        }
+      }
+      a['building']==false
+  end
 
   def ci_answer repo, expid
     %x(echo `ssh -tt ci@10.32.0.120 "docker run dockerhub.iis.sinica.edu.tw/#{repo.downcase}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat"` > ./public/results/text.filt)
