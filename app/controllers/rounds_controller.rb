@@ -18,7 +18,7 @@ class RoundsController < ApplicationController
   end
 
   def run_next
-    @repos.eacho do |r|
+    @repos.each do |r|
       # 檢查每個repo有沒有閒置未做的實驗，執行
       rounds = Round.where(repo: r)
       no_running = (rounds.where.not(status: 'running') && rounds.where(status: 'added'))
