@@ -12,7 +12,7 @@ class GgithubsController < ApplicationController
       @downstreams = origin_downstreams.select{ |b| (hidden_branches.exclude? b[:down_name]) }
     end
     origin_code = get_dockerfile(params[:repo], params[:sha])
-    repo_ver = 'DNN-train:'
+    repo_ver = 'dnn-train:'
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[0..-1].map{ |x|
       if x.include?(repo_ver)
         "FROM dockerhub.iis.sinica.edu.tw/#{repo_ver}#{params[:upstream].split('/')[-1]}"
