@@ -26,6 +26,7 @@ class GgithubsController < ApplicationController
 
     Exp.create(
       upstream: params[:github_code][:upstream],
+      upstream_info: params[:github_code][:upstream_info],
       repo: params[:github_code][:repo],
       branch: params[:github_code][:branch],
       content: params[:github_code][:content],
