@@ -12,7 +12,14 @@ class GgithubsController < ApplicationController
       @downstreams = origin_downstreams.select{ |b| (hidden_branches.exclude? b[:down_name]) }
     end
     origin_code = get_dockerfile(params[:repo], params[:sha])
-    @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[1..-1].unshift("FROM dockerhub.iis.sinica.edu.tw/dnn-train:#{params[:upstream].split('/')[-1]}").join("\n")
+    repo_ver = 'DNN-train:'
+    @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[0..-1].map{ |x|
+      if x.include?(repo_ver)
+        "FROM dockerhub.iis.sinica.edu.tw/#{repo_ver}#{params[:upstream].split('/')[-1]}"
+      else
+        x
+      end
+    }.join("\n")
 
     if params[:downstream]
       @round_in_history = Round.where(id: DownStream.where(branch: params[:downstream].split('oooo')[0]).pluck(:round_id)).order(id: :desc)
@@ -20,10 +27,6 @@ class GgithubsController < ApplicationController
   end
 
   def update
-    # Round.find_by(jid: params[:github_code][:upstream]).down_streams.create(branch: params[:github_code][:branch])
-
-    # create_exp_on_github params[:github_code][:upstream_info], params[:github_code][:repo], params[:github_code][:branch], params[:github_code][:content], params[:github_code][:sha]
-
     Exp.create(
       upstream: params[:github_code][:upstream],
       upstream_info: params[:github_code][:upstream_info],
