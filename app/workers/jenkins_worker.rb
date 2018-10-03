@@ -27,7 +27,8 @@ class JenkinsWorker
           repo: r[:repo],
           expid: r[:expid],
           sha1: r[:sha1],
-          branch: (r[:branch].start_with?('_') ? r[:branch][1..-1] : r[:branch])
+          branch: (r[:branch].start_with?('_') ? r[:branch][1..-1] : r[:branch]),
+          label: r[:label],
           }
         }
         new_round.each{|n| Round.find_or_initialize_by(jid: n[:jid]).update!(n)}
@@ -83,6 +84,13 @@ class JenkinsWorker
       if to_commit_hash
         commit_hash = to_commit_hash['lastBuiltRevision']['branch']
         branch = commit_hash[0]['name'].split('/').last
+
+        dnn_wer = if (branch == 'DNN-test')
+          exp_rate_dnn(exp_name, id)
+        else
+          ''
+        end
+
         if branch != 'master'
           result = success_exp_detail[x]['result']
           success_exp << {
@@ -96,6 +104,7 @@ class JenkinsWorker
             expid: success_exp_detail_number,
             sha1: commit_hash[0]['SHA1'],
             branch: branch,
+            label: dnn_wer,
           }
         end
       end
@@ -137,6 +146,11 @@ class JenkinsWorker
     end
   end
 
+  def exp_rate_dnn(exp_name, id)
+    result = open("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{id}/consoleText", http_basic_authentication: [ ENV['CI_ID'], ENV['CI_PWD'] ]) {|f| f.read }
+    to_dnn_wer result
+  end
+
   def login_jenkins
     @jenkins = JenkinsApi::Client.new(
       server_ip: ENV['CI_HOST'],
@@ -153,5 +167,9 @@ class JenkinsWorker
 
   def tri_si result
     result.split("\n").select{ |i| i[/%WER/i] }.map(&:split).map{|x| x[1]}[-1] || 0
+  end
+
+  def to_dnn_wer result
+    result.split("\n").select{ |i| i[/%WER/i] }[-1] || ''
   end
 end
