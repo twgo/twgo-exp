@@ -85,7 +85,7 @@ class JenkinsWorker
         branch = commit_hash[0]['name'].split('/').last
 
         dnn_wer = if (exp_name == 'DNN-test')
-          exp_rate_dnn(exp_name, id)
+          exp_rate_dnn(exp_name, success_exp_detail_number)
         else
           ''
         end
