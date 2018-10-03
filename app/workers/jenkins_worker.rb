@@ -28,7 +28,6 @@ class JenkinsWorker
           expid: r[:expid],
           sha1: r[:sha1],
           branch: (r[:branch].start_with?('_') ? r[:branch][1..-1] : r[:branch]),
-          label: r[:label],
           }
         }
         new_round.each{|n| Round.find_or_initialize_by(jid: n[:jid]).update!(n)}
@@ -98,13 +97,12 @@ class JenkinsWorker
             cid: commit_hash,
             info: commit_message(exp_name, commit_hash),
             did: docker_id(exp_name, success_exp_detail_number, result),
-            rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate'),
+            rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate') + "\n#{dnn_wer}",
             rate2: exp_rate(exp_name, success_exp_detail_number, result, 'rate2'),
             repo: exp_name,
             expid: success_exp_detail_number,
             sha1: commit_hash[0]['SHA1'],
             branch: branch,
-            label: dnn_wer,
           }
         end
       end
