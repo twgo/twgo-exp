@@ -95,9 +95,9 @@ class JenkinsWorker
           success_exp << {
             jid: "#{exp_name}/#{success_exp_detail_number}",
             cid: commit_hash,
-            info: commit_message(exp_name, commit_hash),
+            info: commit_message(exp_name, commit_hash)+"\n#{dnn_wer}",
             did: docker_id(exp_name, success_exp_detail_number, result),
-            rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate').to_s + "\n#{dnn_wer}",
+            rate: exp_rate(exp_name, success_exp_detail_number, result, 'rate'),
             rate2: exp_rate(exp_name, success_exp_detail_number, result, 'rate2'),
             repo: exp_name,
             expid: success_exp_detail_number,
