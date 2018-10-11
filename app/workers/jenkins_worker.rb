@@ -168,6 +168,8 @@ class JenkinsWorker
   end
 
   def to_dnn_wer result
-    result.split("\n").select{ |i| i[/%WER/i] }[-1] || ''
+    wer = result.split("\n").select{ |i| i[/%WER/i] }[-1] || ''
+    ser = result.split("\n").select{ |i| i[/%SER/i] }[-1] || ''
+    "#{wer}\n#{ser}"
   end
 end
