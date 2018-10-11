@@ -1,18 +1,18 @@
 require 'github_api'
 require 'net/http'
 
-class GithubsController < ApplicationController
+class GgithubsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @upstream = Round.where(repo: 'siann1-hak8_boo5-hing5').where.not(rate: [0, 888, 999]).order(id: :desc) || Round.none
+    @upstream = Round.where(repo: 'DNN-train').where.not(rate: [888, 999]).order(id: :desc) || Round.none
     if params[:select_repo] = 'true'
-      origin_downstreams = get_branches "twgo/gi2-gian5_boo5-hing5"
+      origin_downstreams = get_branches "twgo/DNN-test"
       hidden_branches = Rails.configuration.my_hidden_branches
       @downstreams = origin_downstreams.select{ |b| (hidden_branches.exclude? b[:down_name]) }
     end
     origin_code = get_dockerfile(params[:repo], params[:sha])
-    repo_ver = 'siann1-hak8_boo5-hing5:'
+    repo_ver = 'dnn-train:'
     @github_code = params[:upstream].blank? ? origin_code : origin_code.split("\n")[0..-1].map{ |x|
       if x.include?(repo_ver)
         "FROM dockerhub.iis.sinica.edu.tw/#{repo_ver}#{params[:upstream].split('/')[-1]}"
@@ -37,7 +37,7 @@ class GithubsController < ApplicationController
       status: 'added'
     )
 
-    redirect_to githubs_path(select_down: 'yes'), notice: "實驗已建立!"
+    redirect_to ggithubs_path(select_down: 'yes'), notice: "實驗已建立!"
   end
 
   def create_exp_on_github upstream_info, repo, branch, content, sha

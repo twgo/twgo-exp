@@ -8,12 +8,13 @@
     <col style="width:24%;"/>
   <% end %>
   <% if has_up(params[:repo]) == 'y' %>
-    <col style="width:10%;"/>
+    <col style="width:30%;"/>
     <col style="width:25%;"/>
   <% else %>
-    <col style="width:35%;"/>
+    <col style="width:55%;"/>
   <% end %>
-  <col style="width:7%;"/>
+  <col style="width:6%;"/>
+  <col style="width:5%;"/>
   <thead>
     <tr>
       <th>實驗</th>
@@ -23,6 +24,8 @@
           <th>訓練設定</th>
         <% elsif params[:repo] == 'gi2-gian5_boo5-hing5' %>
           <th>測試設定</th>
+        <% else %>
+          <th><%= params[:repo] %> setting</th>
         <% end %>
       <% end %>
       <% if has_up(params[:repo]) == 'y' %>
@@ -47,7 +50,7 @@
           <td><%= r.branch %></td>
         <% end %>
         <% if has_up(params[:repo]) == 'y' %>
-          <td><%=  r.info.split(' - ')[1] %></td>
+          <td><%= r.info ? r.info.split(' - ')[1] : '' %></td>
         <% end %>
         <td><%= r.info %></td>
         <td>

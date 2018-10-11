@@ -15,9 +15,21 @@
           <% end %>
         </li>
         <li>
+          <%= link_to ggithubs_path(select_down: 'yes') do %>
+          <i class="fa fa-dashboard"></i>
+          DNN 接實驗
+          <% end %>
+        </li>
+        <li>
           <%= link_to audio_rounds_path do %>
           <i class="fa fa-download"></i>
           音檔下載
+          <% end %>
+        </li>
+        <li>
+          <%= link_to refresh_rounds_path do %>
+          <i class="fa fa-download"></i>
+          重新整理
           <% end %>
         </li>
       </ul>

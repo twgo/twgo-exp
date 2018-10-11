@@ -3,7 +3,7 @@ services:
   web:
     build: .
     restart: always
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bash -c "whenever -i && cron start && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/app
       - ~/.ssh:/root/.ssh
