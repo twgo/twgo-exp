@@ -53,6 +53,16 @@ class RoundsController < ApplicationController
     )
   end
 
+  def utt
+    ci_utt params[:repo], params[:expid]
+
+    send_file(
+      "#{Rails.root}/public/results/per_utt",
+      filename: "#{params[:repo]}_#{params[:expid]}_per_utt.txt",
+      type: "text/plain"
+    )
+  end
+
   def audio
     send_file(
       "#{Rails.root}/public/results/TW01M_TEST.gz",
@@ -92,6 +102,10 @@ class RoundsController < ApplicationController
 
   def ci_answer repo, expid
     %x(echo `ssh -tt ci@10.32.0.120 "docker run dockerhub.iis.sinica.edu.tw/#{repo.downcase}:#{expid} cat /usr/local/kaldi/egs/taiwanese/s5c/exp/tri4/decode_train_dev/scoring/text.filt | cat"` > ./public/results/text.filt)
+  end
+
+  def ci_utt repo, expid
+    %x(echo `ssh -tt ci@10.32.0.120 "docker run dockerhub.iis.sinica.edu.tw/#{repo.downcase}:#{expid} cat /usr/local/kaldi/egs/formosa/s5/exp/chain/tdnn_1a_sp/decode_train_dev_rescoring/scoring_kaldi/cer_details/per_utt | cat"` > ./public/results/per_utt)
   end
 
   def ci_best repo, expid

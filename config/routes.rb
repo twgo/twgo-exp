@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'refresh'
       get 'answer'
       get 'best'
+      get 'utt'
       get 'audio'
       get 'run_next'
     end
