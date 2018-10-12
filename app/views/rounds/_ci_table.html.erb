@@ -59,7 +59,7 @@
           <% end %>
         </td>
         <td>
-          <%= (link_to '⬇️', utt_rounds_path(expid: r.expid, repo: r.repo), title: "#{r.repo}:#{r.expid}的最佳解") if r.repo = 'DNN-test' %>
+          <%= (link_to '⬇️', utt_rounds_path(expid: r.expid, repo: r.repo), title: "#{r.repo}:#{r.expid}的最佳解") if (r.repo == 'DNN-test') %>
           <% unless ((r.rate == 0.0) || (r.rate == 999.0) || (r.rate == 888.0)) %>
             <%= (link_to '👍', best_rounds_path(expid: r.expid, repo: r.repo), title: "#{r.repo}:#{r.expid}的最佳解")  %>
             <%= (link_to '📓', answer_rounds_path(expid: r.expid, repo: r.repo), title: "#{r.repo}:#{r.expid}的正解")  %>
