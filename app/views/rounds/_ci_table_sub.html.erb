@@ -11,7 +11,7 @@
 			<% end %>
 		</ul>
 	</div>
-	<div class="col-xs-6">
+	<div class="col-xs-9">
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade active in" id="<%= params[:ci_name] %>">
 				<%= render 'ci_table', params: {ci_data: params[:ci_data], tag: 'all', repo: params[:ci_name]} %>
