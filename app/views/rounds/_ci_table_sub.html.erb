@@ -1,22 +1,26 @@
 <div class="" role="tabpanel" data-example-id="togglable-tabs">
-	<ul class="nav nav-tabs bar_tabs" role="tablist">
-		<li role="presentation">
-			<a href="#<%= params[:ci_name] %>" role="tab" data-toggle="tab" aria-expanded="false">ALL</a>
-		</li>
-		<% params[:ci_group].uniq.each_with_index do |r,i| %>
+	<div class="col-xs-3">
+		<ul class="nav nav-tabs tabs-left" role="tablist">
 			<li role="presentation">
-				<a href="#<%= params[:ci_name]+i.to_s %>" role="tab" data-toggle="tab" aria-expanded="<%= i==0 ? 'true' : 'false' %>"><%= r %></a>
+				<a href="#<%= params[:ci_name] %>" role="tab" data-toggle="tab" aria-expanded="false">ALL</a>
 			</li>
-		<% end %>
-	</ul>
-	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane fade active in" id="<%= params[:ci_name] %>">
-			<%= render 'ci_table', params: {ci_data: params[:ci_data], tag: 'all', repo: params[:ci_name]} %>
-		</div>
-		<% params[:ci_group].uniq.each_with_index do |r,i| %>
-			<div role="tabpanel" class="<%= i==0 ? 'tab-pane fade' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
-				<%= render 'ci_table', params: {ci_data: params[:ci_data].where(branch: r), repo: params[:ci_name], branch: "#{r}"} %>
+			<% params[:ci_group].uniq.each_with_index do |r,i| %>
+				<li role="presentation">
+					<a href="#<%= params[:ci_name]+i.to_s %>" role="tab" data-toggle="tab" aria-expanded="<%= i==0 ? 'true' : 'false' %>"><%= r %></a>
+				</li>
+			<% end %>
+		</ul>
+	</div>
+	<div class="col-xs-6">
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade active in" id="<%= params[:ci_name] %>">
+				<%= render 'ci_table', params: {ci_data: params[:ci_data], tag: 'all', repo: params[:ci_name]} %>
 			</div>
-		<% end %>
+			<% params[:ci_group].uniq.each_with_index do |r,i| %>
+				<div role="tabpanel" class="<%= i==0 ? 'tab-pane fade' : 'tab-pane fade' %>" id="<%= params[:ci_name]+i.to_s %>">
+					<%= render 'ci_table', params: {ci_data: params[:ci_data].where(branch: r), repo: params[:ci_name], branch: "#{r}"} %>
+				</div>
+			<% end %>
+		</div>
 	</div>
 </div>
