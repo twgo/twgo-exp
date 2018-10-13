@@ -4,7 +4,7 @@
 			<li role="presentation">
 				<a href="#<%= params[:ci_name] %>" role="tab" data-toggle="tab" aria-expanded="false">ALL</a>
 			</li>
-			<% params[:ci_group].uniq.each_with_index do |r,i| %>
+			<% params[:ci_group].uniq.sort.each_with_index do |r,i| %>
 				<li role="presentation">
 					<a href="#<%= params[:ci_name]+i.to_s %>" role="tab" data-toggle="tab" aria-expanded="<%= i==0 ? 'true' : 'false' %>"><%= r %></a>
 				</li>
