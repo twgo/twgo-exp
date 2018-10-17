@@ -73,7 +73,7 @@ class GgithubsController < ApplicationController
     github_client.branches(org_repo).map{ |x| {
       down_name: x[:name],
       down_sha: x[:commit][:sha],
-      }}.sort
+      }}
   end
 
   def create_branch repo, temp_branch, sha

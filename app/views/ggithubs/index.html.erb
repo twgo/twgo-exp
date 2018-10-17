@@ -10,7 +10,7 @@
 								<%= form_tag(ggithubs_path, method: :get) do -%>
 									<%= hidden_field_tag :select_down, 'yes' %>
 									<%= hidden_field_tag :repo, 'DNN-test' %>
-									<%= select_tag :downstream, options_for_select(@downstreams.map { |obj| [ obj[:down_name], "#{obj[:down_name]}oooo#{obj[:down_sha]}" ] }), {onchange: 'this.form.submit()', prompt: 'choose downstream...'} %>
+									<%= select_tag :downstream, options_for_select(@downstreams.map { |obj| [ obj[:down_name], "#{obj[:down_name]}oooo#{obj[:down_sha]}" ] }).sort, {onchange: 'this.form.submit()', prompt: 'choose downstream...'} %>
 								<% end %>
 							<% end %>
 
