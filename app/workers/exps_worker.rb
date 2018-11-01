@@ -8,10 +8,12 @@ class ExpsWorker
   def perform(repo)
     p 'ExpsWorker start'
     exp = Exp.find_by(repo: repo, status: 'added')
-    if exp
-     exp.update(status: 'processed')
+    exp_running = Exp.find_by(repo: repo, status: 'running')
+
+    if exp && !exp_running
+     exp.update(status: 'running')
      Round.find_by(jid: exp.upstream).down_streams.create(branch: exp.branch)
-     create_exp_on_github exp.upstream_info, exp.repo, exp.branch, exp.content, exp.sha
+     create_exp_on_github exp
     end
 
     p 'ExpsWorker OK'
@@ -19,8 +21,14 @@ class ExpsWorker
 
   private
 
-  def create_exp_on_github(upstream_info, repo, branch, content, sha)
+  def create_exp_on_github exp
+    upstream_info = exp.upstream_info
+    repo = exp.repo
+    branch = exp.branch
+    content = exp.content
+    sha = exp.sha
     temp_branch = "_#{branch}"
+
     create_branch(repo, temp_branch, sha)
     message = "EXP RUN: #{upstream_info}"
     github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
@@ -33,6 +41,7 @@ class ExpsWorker
                            sha: file.sha)
     sleep 10
     delete_branch(repo, temp_branch)
+    exp.update(status: 'processed')
   end
 
   def create_branch(repo, temp_branch, sha)
