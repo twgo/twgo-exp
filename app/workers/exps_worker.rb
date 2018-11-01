@@ -9,9 +9,9 @@ class ExpsWorker
     p 'ExpsWorker start'
     exp = Exp.find_by(repo: repo, status: 'added')
     if exp
+     exp.update(status: 'processed')
      Round.find_by(jid: exp.upstream).down_streams.create(branch: exp.branch)
      create_exp_on_github exp.upstream_info, exp.repo, exp.branch, exp.content, exp.sha
-     exp.update(status: 'processed')
     end
 
     p 'ExpsWorker OK'
