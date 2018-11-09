@@ -28,7 +28,10 @@ class ExpsWorker
     content = exp.content
     sha = exp.sha
     temp_branch = "_#{branch}"
-
+    begin
+      delete_branch(repo, temp_branch)
+    rescue
+    end
     create_branch(repo, temp_branch, sha)
     message = "EXP RUN: #{upstream_info}"
     github_contents = Github::Client::Repos::Contents.new oauth_token: ENV['GITHUB_TOKEN']
