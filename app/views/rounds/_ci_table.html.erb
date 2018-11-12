@@ -91,7 +91,8 @@ function clip_cmd(e) {
 }
 $('#datatable-buttons-<%= "#{params[:repo]}-#{params[:branch].gsub('+', '_') if params[:branch]}" %>').dataTable(
   {
-       "order": [[ 0, "desc" ]]
+    "order": [[ 0, "desc" ]],
+    "pageLength": 30
   }
 );
 </script>
