@@ -49,7 +49,7 @@ class JenkinsWorker
 
     all_exp_detail=[]
     skip_exp=[]
-    (all_build_counts-50..all_build_counts).each do |x|
+    (all_build_counts-10..all_build_counts).each do |x|
       uri = URI.parse("http://#{ENV['CI_HOST']}/job/#{exp_name}/#{x}/api/json")
       get = Net::HTTP::Get.new(uri.path)
       get.basic_auth ENV['CI_ID'], ENV['CI_PWD']
